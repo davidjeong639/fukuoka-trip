@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>후쿠오카 4박 5일</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@600;700&display=swap">
+<style>
+:root{color-scheme:light}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+/* Layout: one narrow column, a Hakata-ori stripe band on top, days stacked with a time column, food lists as ruled rows. */
+:root{
+  --bg:#EDF0F3; --surface:#F8FAFB; --ink:#141E2B; --muted:#55657A; --line:#CBD3DD;
+  --accent:#24477A; --accent-soft:#DCE5F2;
+  --s1:#24477A; --s2:#6E8DB8; --s3:#C9D6E8;
+  --ok:#1F6B4A; --ok-bg:#DDEFE6; --warn:#7A5000; --warn-bg:#F7E8C4; --crit:#A3281F; --crit-bg:#F6DAD6;
+  --font-display:"Noto Serif KR","Nanum Myeongjo","Apple Myungjo",serif;
+  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1520; --surface:#152130; --ink:#E4EAF1; --muted:#9AA9BC; --line:#2A3A4E;
+    --accent:#8DB0E3; --accent-soft:#1D2D45;
+    --s1:#8DB0E3; --s2:#4A6A99; --s3:#25364F;
+    --ok:#7FD1A5; --ok-bg:#17352A; --warn:#E8B85A; --warn-bg:#3A2E12; --crit:#F09A90; --crit-bg:#3C1D1A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1520; --surface:#152130; --ink:#E4EAF1; --muted:#9AA9BC; --line:#2A3A4E;
+  --accent:#8DB0E3; --accent-soft:#1D2D45;
+  --s1:#8DB0E3; --s2:#4A6A99; --s3:#25364F;
+  --ok:#7FD1A5; --ok-bg:#17352A; --warn:#E8B85A; --warn-bg:#3A2E12; --crit:#F09A90; --crit-bg:#3C1D1A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.65 var(--font-body);word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--accent)}
+.band{height:14px;background:repeating-linear-gradient(90deg,var(--s1) 0 18px,var(--s2) 18px 24px,var(--s3) 24px 40px,var(--s1) 40px 44px)}
+.wrap{max-width:720px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font:700 clamp(28px,7vw,40px)/1.2 var(--font-display);margin:0 0 6px;text-wrap:balance}
+h2{font:700 22px/1.3 var(--font-display);margin:0 0 14px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 22px}
+section{margin-top:44px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta div{padding:12px 0;min-width:0}
+.meta dt{font:500 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.meta dd{margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{font:500 13px/1 var(--font-mono);padding:9px 12px;border:1px solid var(--line);border-radius:4px;text-decoration:none;color:var(--ink);background:var(--surface)}
+.chip:hover,.chip:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tag{display:inline-block;font:500 11px/1 var(--font-mono);padding:4px 6px;border-radius:3px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.tag.ok{color:var(--ok);background:var(--ok-bg)}
+.tag.warn{color:var(--warn);background:var(--warn-bg)}
+.tag.crit{color:var(--crit);background:var(--crit-bg)}
+.src{font:500 11px/1 var(--font-mono);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 5px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.alerts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.alerts li{padding:14px 0;border-bottom:1px solid var(--line);min-width:0}
+.alerts b{display:block;margin-bottom:2px}
+.alerts p{margin:0;color:var(--muted)}
+.copy{font:500 12px/1 var(--font-mono);margin-left:6px;padding:5px 8px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink);cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+.day{margin-top:36px}
+.dayhead{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:4px}
+.dayhead .num{font:700 44px/1 var(--font-display);font-variant-numeric:tabular-nums}
+.dayhead .lbl{font:500 13px/1.3 var(--font-mono);color:var(--muted)}
+.dayhead .ttl{margin-left:auto;font:600 15px/1.3 var(--font-body);text-align:right}
+.daynote{margin:10px 0 0;padding:10px 12px;background:var(--accent-soft);border-radius:4px;font-size:14px}
+.stops{list-style:none;margin:0;padding:0}
+.stop{display:grid;grid-template-columns:4.6rem 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.stop .time{font:500 12px/1.7 var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.stop .body{min-width:0}
+.stop .name{font-weight:600}
+.stop p{margin:3px 0 0;color:var(--muted);font-size:14px}
+.links{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.food h3{font:700 16px/1.3 var(--font-display);margin:26px 0 6px}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:11px 0;border-bottom:1px solid var(--line)}
+.row .l{min-width:0}
+.row .nm{font-weight:600}
+.row .nt{display:block;color:var(--muted);font-size:13.5px}
+.row .sc{font:500 14px/1.6 var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.row .sc small{display:block;font-size:11px;color:var(--muted)}
+.fine{color:var(--muted);font-size:13.5px;margin:14px 0 0}
+.checks{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.checks li{border-bottom:1px solid var(--line)}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer}
+.checks input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+.checks input:checked + span{color:var(--muted);text-decoration:line-through}
+.srcs{padding-left:18px;margin:0}
+.srcs li{margin:4px 0;min-width:0}
+footer{margin-top:44px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
+@media (max-width:420px){
+  .stop{grid-template-columns:3.6rem 1fr;gap:10px}
+  .dayhead .num{font-size:38px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="band"></div>
+<div class="wrap">
+  <h1>후쿠오카 4박 5일</h1>
+  <p class="sub">11월 12일(목)부터 16일(월)까지. 친구와 둘이 갑니다.</p>
+  <dl class="meta">
+    <div><dt>가는 편</dt><dd>11/12(목) 11:10 인천 출발</dd></div>
+    <div><dt>오는 편</dt><dd>11/16(월) 13:50 후쿠오카 출발</dd></div>
+    <div><dt>숙소</dt><dd>에어비앤비, 하카타역 근처</dd></div>
+  </dl>
+  <nav class="chips" id="nav" aria-label="날짜 이동"></nav>
+
+  <section id="alerts">
+    <h2>먼저 확인할 것</h2>
+    <ul class="alerts" id="alertList"></ul>
+  </section>
+
+  <section id="days"></section>
+
+  <section class="food" id="food">
+    <h2>맛집 후보</h2>
+    <p class="sub">다케시와 동료분 추천에 다베로그 상위 가게를 더했습니다. 점수는 다베로그 카테고리 랭킹 기준이고, 점수가 없는 곳은 확인하지 못한 곳입니다.</p>
+    <div id="foodList"></div>
+    <p class="fine">이쿠라(오므라이스)와 아임도넛은 동료분이 여성분과 함께일 때 추천한 곳이라 이번 일정에서 뺐습니다. 친푼칸푼의 "텐진점은 피하라"는 말은 확인하지 못했고, 다케시 리스트의 焼き鳥八幡은 가게를 특정하지 못했습니다.</p>
+  </section>
+
+  <section id="todo">
+    <h2>예약과 확인 목록</h2>
+    <ul class="checks" id="checkList"></ul>
+  </section>
+
+  <section>
+    <h2>출처</h2>
+    <ul class="srcs">
+      <li><a href="https://dometour.softbankhawks.co.jp/" target="_blank" rel="noopener">미즈호 페이페이돔 투어 공식 사이트</a></li>
+      <li><a href="https://www.softbankhawks.co.jp/stadium/event_schedule/2026/" target="_blank" rel="noopener">2026년 돔 이벤트 일정</a></li>
+      <li><a href="https://sumo.pia.jp/vacant/va11.jsp" target="_blank" rel="noopener">규슈바쇼 티켓 판매 상황(チケット大相撲)</a></li>
+      <li><a href="https://tabelog.com/yakitori/fukuoka/A4001/A400103/rank/" target="_blank" rel="noopener">다베로그 텐진 야키토리 랭킹</a></li>
+      <li><a href="https://tabelog.com/sushi/fukuoka/A4001/A400103/rank/" target="_blank" rel="noopener">다베로그 텐진 스시 랭킹</a></li>
+      <li><a href="https://tabelog.com/en/tempura/fukuoka/A4001/A400103/rank/" target="_blank" rel="noopener">다베로그 텐진 텐푸라 랭킹</a></li>
+    </ul>
+  </section>
+
+  <footer>마지막 확인 2026-10-25. 영업 시간과 휴무일은 방문 전에 다시 확인하세요.</footer>
+</div>
+
+<script>
+(function(){
+  var MAP = function(q){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q); };
+  var TAG = { ok:"확정", warn:"미확인", crit:"예약 필요" };
+
+  var alerts = [
+    { tag:"crit", tl:"스모 티켓", t:"일반 발매는 완매이고 당일권도 없습니다.",
+      d:"정가 리셀로 구한 경우에만 11/15(중일)에 갑니다. 암표는 입장이 거절될 수 있습니다." },
+    { tag:"warn", tl:"돔 투어 11/13", t:"예약 달력에서 11/13 일정이 보이지 않았습니다.",
+      d:"예약 전용 전화는 평일 10:00~13:00, 14:00~18:00에 받습니다. 10/26(월)부터 문의할 수 있습니다.", phone:"092-847-1699" },
+    { tag:"crit", tl:"11/14 야키토리", t:"森本와 鳥カミ는 코스제라 예약이 필요합니다.",
+      d:"그날 18:00에 돔에서 후지이 카제 콘서트가 열려 시내가 붐빌 수 있습니다." }
+  ];
+
+  var days = [
+    { id:"d1", num:"12", lbl:"11월 · 목", ttl:"도착일",
+      note:"하루에 식사를 세 번 넣었습니다. 몸 상태를 보고 야타이는 빼도 됩니다.",
+      stops:[
+        { t:"12:30경", n:"공항 도착 후 숙소로", d:"도착 시각은 추정입니다. 공항선 지하철로 하카타역까지 이동해 짐을 맡깁니다.", q:"福岡空港", tags:[["warn","시각 추정"]] },
+        { t:"15:00경", n:"一幸舎 総本店", d:"거품(泡系) 돈코츠 라멘의 원조. 다베로그는 지점별로 3.45~3.49입니다.", q:"博多一幸舎 総本店", src:"다케시" },
+        { t:"오후", n:"캐널시티와 나카스 산책", d:"첫날은 걷기만 합니다.", q:"キャナルシティ博多" },
+        { t:"저녁", n:"博多もつ鍋おおやま", d:"후쿠오카 모츠나베 매출 1위 체인입니다. 지점이 많아 숙소 가까운 곳으로 고르면 됩니다.", q:"博多もつ鍋おおやま 呉服町", src:"동료" },
+        { t:"밤", n:"나카스 야타이", d:"오뎅, 야키토리, 교자 위주로 한두 곳. 라멘은 낮에 먹었으니 생략합니다.", q:"中洲 屋台" }
+      ]},
+    { id:"d2", num:"13", lbl:"11월 · 금", ttl:"돔 투어, 다케시와 저녁",
+      stops:[
+        { t:"점심", n:"天麩羅処ひらお アクロス福岡店", d:"다베로그 3.67, 텐푸라 百名店 2025. 새우 튀김이 대표입니다.", q:"天麩羅処ひらお アクロス福岡", src:"동료" },
+        { t:"오후", n:"미즈호 페이페이돔 투어", d:"ドーム満喫コース(벤치, 라커룸, 불펜)나 アドベンチャーコース(지붕 위 약 35m) 중에서 고릅니다. 접수는 BOSS E・ZO FUKUOKA 3층이고, 唐人町역 3번 출구에서 도보 약 15분입니다. 야구 시즌이 끝나 練習見学코스와 경기 후 코스는 해당되지 않습니다.", q:"みずほPayPayドーム福岡", links:[["투어 사이트","https://dometour.softbankhawks.co.jp/"]], tags:[["warn","일정 미확인"]] },
+        { t:"대안", n:"모모치 해변, 후쿠오카 타워", d:"투어가 열리지 않으면 같은 동네에서 산책으로 대신합니다.", q:"福岡タワー" },
+        { t:"저녁", n:"다케시와 저녁", d:"약속은 잡았고 장소는 아직 정하지 않았습니다. 아래 후보에서 같이 고르면 됩니다.", tags:[["ok","확정"]] }
+      ]},
+    { id:"d3", num:"14", lbl:"11월 · 토", ttl:"기타큐슈 당일치기",
+      stops:[
+        { t:"오전", n:"고쿠라", d:"하카타에서 신칸센으로 약 15분. 야키우동의 발상지입니다.", q:"小倉駅" },
+        { t:"오후", n:"모지코", d:"야키카레의 발상지입니다.", q:"門司港駅" },
+        { t:"저녁", n:"焼鳥 森本 또는 鳥カミ GARDEN CITY", d:"森本 3.73, 鳥カミ 3.65. 둘 다 야키토리 百名店 2025이고 코스제입니다.", q:"焼鳥森本 福岡", links:[["鳥カミ 지도","鳥カミ GARDEN CITY 福岡"]], tags:[["crit","예약 필요"]] },
+        { t:"2차", n:"食堂うめぼし 大名", d:"20대 취향의 저렴한 술집입니다. 점포가 여러 곳이라 동료분이 보낸 링크의 지점을 확인하세요.", q:"食堂うめぼし 大名", src:"동료" },
+        { t:"심야", n:"ShinShin 天神本店", d:"다베로그 3.58. 심야에도 줄이 있다는 후기가 있습니다.", q:"博多らーめんShinShin 天神本店", src:"다케시" }
+      ]},
+    { id:"d4", num:"15", lbl:"11월 · 일", ttl:"스모 또는 굴과 사케",
+      note:"일요일은 쉬는 가게가 많습니다. 粋恭, さしす, 兼虎의 영업 여부를 다베로그에서 확인하세요.",
+      stops:[
+        { t:"낮", n:"스모 규슈바쇼 중일", d:"표가 있을 때만 갑니다. 후쿠오카 국제센터이고 경기는 18시경 끝납니다.", q:"福岡国際センター", links:[["판매 상황","https://sumo.pia.jp/vacant/va11.jsp"]], tags:[["warn","표 없음"]] },
+        { t:"표 없으면", n:"麺や兼虎 天神本店", d:"츠케멘 전문점입니다. 줄이 길다는 후기가 많습니다.", q:"麺や兼虎 天神本店", src:"다케시" },
+        { t:"오후", n:"이토시마 굴 오두막 또는 石蔵酒造", d:"굴 오두막은 가게별로 10월 초중순부터 문을 엽니다. 가게는 아직 정하지 않았습니다. 石蔵酒造는 견학 없이 직판장과 시음만 운영합니다.", q:"石蔵酒造 博多" },
+        { t:"저녁", n:"とりかわ 粋恭", d:"야쿠인. 다베로그 3.52, 야키토리 百名店 2024. 닭껍질 꼬치가 대표입니다.", q:"とりかわ粋恭 薬院", src:"다케시" },
+        { t:"2차", n:"すし酒場さしす 天神店", d:"예약을 받지 않아 웨이팅이 필수입니다.", url:"https://maps.app.goo.gl/M3tcmLMhncTbvkoY8", src:"동료" }
+      ]},
+    { id:"d5", num:"16", lbl:"11월 · 월", ttl:"귀국일",
+      stops:[
+        { t:"오전", n:"元祖博多めんたい重 博多店", d:"앉아서 먹는 가게가 아니라 도시락과 선물 전문점입니다. 명란 덮밥의 발상지입니다.", q:"元祖博多めんたい重 博多駅" },
+        { t:"오전", n:"편의점과 드럭스토어", d:"동료분은 입문 메뉴 대신 편의점을 추천했습니다.", q:"ドラッグストア 博多駅" },
+        { t:"11:00경", n:"공항으로 출발", d:"13:50 출발이라 11:30~12:00에 공항 도착을 목표로 잡았습니다. 항공사의 체크인 마감 시각을 확인하세요.", q:"福岡空港 国際線ターミナル", tags:[["warn","시각 추정"]] }
+      ]}
+  ];
+
+  var food = [
+    { c:"라멘과 츠케멘", items:[
+      ["ShinShin 天神本店","3.58","다케시 · 크리미하지만 느끼하지 않다는 후기가 많음","博多らーめんShinShin 天神本店"],
+      ["一幸舎","3.45~3.49","다케시 · 거품 돈코츠 원조, 지점별 점수","博多一幸舎 総本店"],
+      ["麺や兼虎 天神本店","","다케시 · 츠케멘, 연일 줄이 김","麺や兼虎 天神本店"],
+      ["元祖赤のれん 節ちゃんラーメン","","다케시 · 1946년 창업, 지금은 관광객이 대부분","元祖赤のれん節ちゃんラーメン 大名"]
+    ]},
+    { c:"모츠나베", items:[
+      ["もつ鍋 一慶 春吉本店","3.59","다베로그 · 2026 핫레스토랑 수상","もつ鍋一慶 春吉本店"],
+      ["春吉きんぎょ","3.59","다베로그 · 체인이 아닌 곳","春吉きんぎょ もつ鍋"],
+      ["博多もつ鍋おおやま","","동료 · 매출 1위 체인, 깔끔한 맛","博多もつ鍋おおやま 呉服町"],
+      ["楽天地","3.44","다케시 · 텐진 니시도리점 기준, 본점은 아크로스 지하 2층","元祖もつ鍋楽天地 天神 アクロス福岡"],
+      ["もつ料理 かわ乃","","1953년 창업 노포, 영업 여부 재확인 필요","もつ料理かわ乃 春吉"]
+    ]},
+    { c:"야키토리", items:[
+      ["焼鳥 森本","3.73","다베로그 · 百名店 2025, 코스제","焼鳥森本 福岡"],
+      ["鳥カミ GARDEN CITY","3.65","다베로그 · 百名店 2025","鳥カミ GARDEN CITY 福岡"],
+      ["とりかわ 粋恭","3.52","다케시 · 百名店 2024, 닭껍질 꼬치","とりかわ粋恭 薬院"],
+      ["八兵衛","","다케시 · 영어 메뉴 있음, 당일 예약은 어렵다는 후기","八兵衛 焼き鳥 福岡"],
+      ["ちんぷんかんぷん","3.34","동료 · 입구 찾기 어려운 가게, 텐진점 제외는 미확인","ちんぷんかんぷん 焼き鳥 福岡"]
+    ]},
+    { c:"스시와 튀김", items:[
+      ["在掌","4.03","다베로그 · 百名店 2025, 코스 2~3만엔대","在掌 福岡 寿司"],
+      ["鮨ぶんぺい","3.80","다베로그 · 코스 2~3만엔대","鮨ぶんぺい 福岡"],
+      ["すし酒場さしす 天神店","","동료 · 예약 불가, 웨이팅","",  "https://maps.app.goo.gl/M3tcmLMhncTbvkoY8"],
+      ["天麩羅処ひらお アクロス店","3.67","동료 · 텐푸라 百名店 2025","天麩羅処ひらお アクロス福岡"]
+    ]},
+    { c:"명란과 술집", items:[
+      ["元祖博多めんたい重 西中洲 본점","3.50","다케시 · 앉아서 먹는 본점","元祖博多めんたい重 西中洲"],
+      ["食堂うめぼし 大名","","동료 · 저렴한 술집","食堂うめぼし 大名"],
+      ["HANJAN 天神大名店","3.08","동료 · 한국식 포차, 리뷰 13개라 참고용, 금·토 밤 예약 권장","HANJAN 天神大名店"],
+      ["나카스 야타이","","현장에서 붐비는 곳으로","中洲 屋台"]
+    ]}
+  ];
+
+  var todo = [
+    ["dome","돔 투어: 10/26(월) 이후 092-847-1699 또는 문의 폼으로 11/13 개최 여부 확인"],
+    ["yaki","11/14 저녁 焼鳥 森本 또는 鳥カミ 예약"],
+    ["take","11/13 저녁 다케시와 갈 장소 정하기"],
+    ["sumo","스모 정가 리셀 가끔 확인(표가 나오면 11/15)"],
+    ["sun","11/15 일요일 영업 여부 확인(粋恭, さしす, 兼虎)"],
+    ["hanj","HANJAN에 가려면 금·토 밤 예약(선택)"],
+    ["chk","항공사 체크인 마감 시각 확인"]
+  ];
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function link(label,target){
+    var href = /^https?:/.test(target) ? target : MAP(target);
+    return '<a href="'+esc(href)+'" target="_blank" rel="noopener">'+esc(label)+'</a>';
+  }
+
+  // nav
+  var nav = document.getElementById("nav");
+  nav.innerHTML = days.map(function(d){ return '<a class="chip" href="#'+d.id+'" data-t="'+d.id+'">'+d.num+'일</a>'; }).join("")
+    + '<a class="chip" href="#food" data-t="food">맛집</a><a class="chip" href="#todo" data-t="todo">할 일</a>';
+  nav.addEventListener("click",function(e){
+    var a = e.target.closest("a[data-t]"); if(!a) return;
+    e.preventDefault();
+    var el = document.getElementById(a.getAttribute("data-t"));
+    if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+
+  // alerts
+  document.getElementById("alertList").innerHTML = alerts.map(function(a){
+    return '<li><b>'+esc(a.tl)+'<span class="tag '+a.tag+'">'+TAG[a.tag]+'</span></b>'
+      + '<p>'+esc(a.t)+' '+esc(a.d)+(a.phone ? ' <span>'+esc(a.phone)+'</span><button class="copy" type="button" data-copy="'+esc(a.phone)+'">복사</button>' : '')+'</p></li>';
+  }).join("");
+  document.getElementById("alertList").addEventListener("click",function(e){
+    var b = e.target.closest("button[data-copy]"); if(!b) return;
+    var txt = b.getAttribute("data-copy");
+    try{
+      navigator.clipboard.writeText(txt).then(function(){ b.textContent="복사됨"; },function(){ b.textContent="직접 선택"; });
+    }catch(err){ b.textContent="직접 선택"; }
+  });
+
+  // days
+  document.getElementById("days").innerHTML = days.map(function(d){
+    var stops = d.stops.map(function(s){
+      var tags = (s.tags||[]).map(function(t){ return '<span class="tag '+t[0]+'">'+esc(t[1])+'</span>'; }).join("");
+      var src = s.src ? '<span class="src">'+esc(s.src)+'</span>' : "";
+      var links = [];
+      if(s.url) links.push(link("지도",s.url)); else if(s.q) links.push(link("지도",s.q));
+      (s.links||[]).forEach(function(l){ links.push(link(l[0],l[1])); });
+      return '<li class="stop"><div class="time">'+esc(s.t)+'</div><div class="body"><div class="name">'+esc(s.n)+tags+src+'</div>'
+        + '<p>'+esc(s.d)+'</p>'+(links.length?'<div class="links">'+links.join("")+'</div>':"")+'</div></li>';
+    }).join("");
+    return '<div class="day" id="'+d.id+'"><div class="dayhead"><span class="num">'+d.num+'</span><span class="lbl">'+esc(d.lbl)+'</span><span class="ttl">'+esc(d.ttl)+'</span></div>'
+      + (d.note ? '<p class="daynote">'+esc(d.note)+'</p>' : "")
+      + '<ul class="stops">'+stops+'</ul></div>';
+  }).join("");
+
+  // food
+  document.getElementById("foodList").innerHTML = food.map(function(g){
+    var rows = g.items.map(function(it){
+      var target = it[4] || it[3];
+      var sc = it[1] ? '<div class="sc">'+esc(it[1])+'<small>다베로그</small></div>' : '<div class="sc"></div>';
+      return '<li class="row"><div class="l"><span class="nm">'+link(it[0],target)+'</span><span class="nt">'+esc(it[2])+'</span></div>'+sc+'</li>';
+    }).join("");
+    return '<h3>'+esc(g.c)+'</h3><ul class="rows">'+rows+'</ul>';
+  }).join("");
+
+  // checklist (per-viewer convenience only)
+  var KEY = "fukuoka-trip-checks";
+  var saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; }catch(e){ saved = {}; }
+  var list = document.getElementById("checkList");
+  list.innerHTML = todo.map(function(t){
+    return '<li><label for="ck-'+t[0]+'"><input type="checkbox" id="ck-'+t[0]+'"'+(saved[t[0]]?" checked":"")+'><span>'+esc(t[1])+'</span></label></li>';
+  }).join("");
+  list.addEventListener("change",function(e){
+    var cb = e.target; if(!cb || cb.type!=="checkbox") return;
+    saved[cb.id.replace("ck-","")] = cb.checked;
+    try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(err){}
+  });
+})();
+</script>
+</body>
+</html>
