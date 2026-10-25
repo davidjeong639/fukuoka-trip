@@ -4,133 +4,236 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>후쿠오카 4박 5일</title>
+<meta name="theme-color" content="#1F3D6B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 :root{color-scheme:light}
 body{margin:0}
 img{max-width:100%}
 [hidden]{display:none!important}
 
-/* Layout: one narrow column, a Hakata-ori stripe band on top, days stacked with a time column, food lists as ruled rows. */
+/* Layout: indigo hero with a Hakata-ori stripe, sticky day tabs, then cards — alerts, map, one card per day with a timeline, food lists, checklist. */
 :root{
-  --bg:#EDF0F3; --surface:#F8FAFB; --ink:#141E2B; --muted:#55657A; --line:#CBD3DD;
-  --accent:#24477A; --accent-soft:#DCE5F2;
-  --s1:#24477A; --s2:#6E8DB8; --s3:#C9D6E8;
+  --bg:#F4F2EE; --surface:#FFFFFF; --ink:#1A2230; --muted:#5E6878; --line:#E4E0D8;
+  --accent:#23467A; --accent-soft:#E3EAF5;
+  --hero:#1F3D6B; --hero-ink:#FFFFFF; --hero-muted:#C5D3E8;
+  --s1:#F4F2EE; --s2:#6E8DB8; --s3:#3A5C8F;
+  --d1:#2F5FA8; --d2:#13827C; --d3:#B86E0B; --d4:#B23F68; --d5:#6650AE; --food:#C2412D;
   --ok:#1F6B4A; --ok-bg:#DDEFE6; --warn:#7A5000; --warn-bg:#F7E8C4; --crit:#A3281F; --crit-bg:#F6DAD6;
+  --shadow:0 1px 2px rgba(20,30,45,.06),0 4px 16px rgba(20,30,45,.06);
   --font-display:"Noto Serif KR","Nanum Myeongjo","Apple Myungjo",serif;
   --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --font-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0D1520; --surface:#152130; --ink:#E4EAF1; --muted:#9AA9BC; --line:#2A3A4E;
-    --accent:#8DB0E3; --accent-soft:#1D2D45;
-    --s1:#8DB0E3; --s2:#4A6A99; --s3:#25364F;
+    --bg:#0F141B; --surface:#171E28; --ink:#E7EBF0; --muted:#9BA6B5; --line:#2A3341;
+    --accent:#8FB2E8; --accent-soft:#1B2840;
+    --hero:#142338; --hero-ink:#F1F4F8; --hero-muted:#9FB3D1;
+    --s1:#0F141B; --s2:#4A6A99; --s3:#2B4468;
+    --d1:#7FA6E6; --d2:#4FC2B9; --d3:#E3A647; --d4:#E57CA3; --d5:#A895E8; --food:#EE7A63;
     --ok:#7FD1A5; --ok-bg:#17352A; --warn:#E8B85A; --warn-bg:#3A2E12; --crit:#F09A90; --crit-bg:#3C1D1A;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0D1520; --surface:#152130; --ink:#E4EAF1; --muted:#9AA9BC; --line:#2A3A4E;
-  --accent:#8DB0E3; --accent-soft:#1D2D45;
-  --s1:#8DB0E3; --s2:#4A6A99; --s3:#25364F;
+  --bg:#0F141B; --surface:#171E28; --ink:#E7EBF0; --muted:#9BA6B5; --line:#2A3341;
+  --accent:#8FB2E8; --accent-soft:#1B2840;
+  --hero:#142338; --hero-ink:#F1F4F8; --hero-muted:#9FB3D1;
+  --s1:#0F141B; --s2:#4A6A99; --s3:#2B4468;
+  --d1:#7FA6E6; --d2:#4FC2B9; --d3:#E3A647; --d4:#E57CA3; --d5:#A895E8; --food:#EE7A63;
   --ok:#7FD1A5; --ok-bg:#17352A; --warn:#E8B85A; --warn-bg:#3A2E12; --crit:#F09A90; --crit-bg:#3C1D1A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font:15px/1.65 var(--font-body);word-break:keep-all;overflow-wrap:anywhere}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:15px/1.65 var(--font-body);word-break:keep-all;overflow-wrap:anywhere;-webkit-text-size-adjust:100%}
 a{color:var(--accent)}
-.band{height:14px;background:repeating-linear-gradient(90deg,var(--s1) 0 18px,var(--s2) 18px 24px,var(--s3) 24px 40px,var(--s1) 40px 44px)}
-.wrap{max-width:720px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1{font:700 clamp(28px,7vw,40px)/1.2 var(--font-display);margin:0 0 6px;text-wrap:balance}
-h2{font:700 22px/1.3 var(--font-display);margin:0 0 14px;text-wrap:balance}
-.sub{color:var(--muted);margin:0 0 22px}
-section{margin-top:44px}
-.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.meta div{padding:12px 0;min-width:0}
-.meta dt{font:500 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.meta dd{margin:0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.chip{font:500 13px/1 var(--font-mono);padding:9px 12px;border:1px solid var(--line);border-radius:4px;text-decoration:none;color:var(--ink);background:var(--surface)}
-.chip:hover,.chip:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.tag{display:inline-block;font:500 11px/1 var(--font-mono);padding:4px 6px;border-radius:3px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:var(--hero);color:var(--hero-ink);padding-top:max(36px,env(safe-area-inset-top,0px))}
+.hero .wrap{padding-bottom:64px}
+.kicker{font:500 12px/1 var(--font-mono);letter-spacing:.12em;color:var(--hero-muted);margin:0 0 12px}
+h1{font:700 clamp(32px,9vw,48px)/1.15 var(--font-display);margin:0 0 10px;text-wrap:balance}
+.hero .sub{color:var(--hero-muted);margin:0;font-size:15px}
+.band{height:12px;background:repeating-linear-gradient(90deg,var(--s3) 0 18px,var(--s2) 18px 24px,var(--s1) 24px 40px,var(--s2) 40px 44px)}
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:-48px 0 0;position:relative}
+.meta div{background:var(--surface);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);min-width:0}
+.meta dt{font:500 11px/1 var(--font-mono);letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+.meta dd{margin:0;font-weight:600;font-size:14px;line-height:1.45}
+.meta dd small{display:block;font-weight:400;color:var(--muted);font-size:12.5px}
+
+/* sticky nav */
+.navbar{position:sticky;top:0;z-index:1100;margin-top:20px;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--font-body);padding:9px 13px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);background:var(--surface);white-space:nowrap;cursor:pointer}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c,var(--accent));flex:none}
+.chip[aria-current="true"],.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip[aria-pressed="true"] i{box-shadow:0 0 0 2px var(--bg)}
+
+main{padding-bottom:max(56px,env(safe-area-inset-bottom,0px))}
+section{scroll-margin-top:64px;margin-top:32px}
+h2{font:700 21px/1.3 var(--font-display);margin:0 0 12px;text-wrap:balance}
+.lead{color:var(--muted);margin:-4px 0 14px;font-size:14px}
+.card{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+
+/* tags */
+.tag{display:inline-block;font:500 11px/1 var(--font-mono);padding:4px 7px;border-radius:999px;margin-left:6px;vertical-align:2px;white-space:nowrap}
 .tag.ok{color:var(--ok);background:var(--ok-bg)}
 .tag.warn{color:var(--warn);background:var(--warn-bg)}
 .tag.crit{color:var(--crit);background:var(--crit-bg)}
-.src{font:500 11px/1 var(--font-mono);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 5px;margin-left:6px;vertical-align:2px;white-space:nowrap}
-.alerts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.alerts li{padding:14px 0;border-bottom:1px solid var(--line);min-width:0}
-.alerts b{display:block;margin-bottom:2px}
-.alerts p{margin:0;color:var(--muted)}
-.copy{font:500 12px/1 var(--font-mono);margin-left:6px;padding:5px 8px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink);cursor:pointer}
-.copy:hover{border-color:var(--accent)}
-.day{margin-top:36px}
-.dayhead{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:4px}
-.dayhead .num{font:700 44px/1 var(--font-display);font-variant-numeric:tabular-nums}
-.dayhead .lbl{font:500 13px/1.3 var(--font-mono);color:var(--muted)}
-.dayhead .ttl{margin-left:auto;font:600 15px/1.3 var(--font-body);text-align:right}
-.daynote{margin:10px 0 0;padding:10px 12px;background:var(--accent-soft);border-radius:4px;font-size:14px}
-.stops{list-style:none;margin:0;padding:0}
-.stop{display:grid;grid-template-columns:4.6rem 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
-.stop .time{font:500 12px/1.7 var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
-.stop .body{min-width:0}
-.stop .name{font-weight:600}
-.stop p{margin:3px 0 0;color:var(--muted);font-size:14px}
-.links{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
-.food h3{font:700 16px/1.3 var(--font-display);margin:26px 0 6px}
-.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.row{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:11px 0;border-bottom:1px solid var(--line)}
+.src{font:500 11px/1 var(--font-mono);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 7px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+
+/* alerts */
+.alerts{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.alerts li{background:var(--surface);border-radius:14px;box-shadow:var(--shadow);padding:14px 16px 14px 18px;border-left:4px solid var(--c);min-width:0}
+.alerts li.crit{--c:var(--crit)} .alerts li.warn{--c:var(--warn)}
+.alerts b{display:block;margin-bottom:4px}
+.alerts p{margin:0;color:var(--muted);font-size:14px}
+.alerts .phone{display:flex;align-items:center;gap:8px;margin-top:10px}
+.alerts .phone a{font:500 15px/1 var(--font-mono);text-decoration:none;padding:10px 12px;border-radius:10px;background:var(--accent-soft)}
+.copy{font:500 13px/1 var(--font-body);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);cursor:pointer}
+
+/* map */
+.mapcard{padding:0;overflow:hidden}
+.mapfilter{display:flex;gap:6px;overflow-x:auto;padding:12px;scrollbar-width:none;border-bottom:1px solid var(--line)}
+.mapfilter::-webkit-scrollbar{display:none}
+#map{height:min(58vh,460px);min-height:300px;background:var(--line)}
+.mapnote{margin:0;padding:10px 14px;font-size:12.5px;color:var(--muted)}
+.mapfail{padding:40px 16px;text-align:center;color:var(--muted)}
+.pin{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--c);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.pin span{transform:rotate(45deg);font:700 12px/1 var(--font-body);color:#fff}
+.pin.food{width:18px;height:18px;border-radius:50%;transform:none}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--ink)}
+.leaflet-popup-content{margin:12px 14px;font:14px/1.5 var(--font-body)}
+.leaflet-popup-content b{display:block;font-size:15px}
+.leaflet-popup-content small{color:var(--muted)}
+.leaflet-popup-content a{display:inline-block;margin-top:6px;font-weight:600}
+.leaflet-container a.leaflet-popup-close-button{color:var(--muted)}
+.leaflet-control-attribution{font-size:10px}
+.tiles-dark{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9)}
+
+/* days */
+.day{padding:0;overflow:hidden;scroll-margin-top:64px}
+.day + .day{margin-top:14px}
+.dayhead{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.dayhead .num{flex:none;width:54px;height:54px;border-radius:14px;background:var(--c);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 24px/1 var(--font-display)}
+.dayhead .num small{font:500 10px/1 var(--font-mono);margin-top:3px;opacity:.9}
+.dayhead .ttl{font:700 18px/1.3 var(--font-display);margin:0}
+.dayhead .lbl{font:500 12px/1.3 var(--font-mono);color:var(--muted)}
+.daynote{margin:14px 18px 0;padding:10px 12px;background:var(--accent-soft);border-radius:10px;font-size:14px}
+.stops{list-style:none;margin:0;padding:6px 18px 10px}
+.stop{position:relative;padding:12px 0 14px 26px;min-width:0}
+.stop::before{content:"";position:absolute;left:5px;top:0;bottom:0;width:2px;background:var(--line)}
+.stop:first-child::before{top:18px}
+.stop:last-child::before{bottom:auto;height:18px}
+.stop::after{content:"";position:absolute;left:0;top:14px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:3px solid var(--c)}
+.stop .time{font:500 12px/1.4 var(--font-mono);color:var(--c);font-variant-numeric:tabular-nums}
+.stop .name{font-weight:600;font-size:16px;line-height:1.45;margin-top:2px}
+.stop p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.acts{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.btn{display:inline-flex;align-items:center;gap:5px;font:500 13px/1 var(--font-body);padding:8px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;cursor:pointer}
+.btn.pinbtn{border-color:transparent;background:color-mix(in srgb,var(--c) 14%,var(--surface));color:var(--ink)}
+.btn svg{width:14px;height:14px;flex:none}
+
+/* food */
+.foodgrid{display:grid;gap:14px}
+.food h3{display:flex;align-items:center;gap:8px;font:700 16px/1.3 var(--font-display);margin:0 0 4px}
+.rows{list-style:none;margin:0;padding:0}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0;padding-bottom:0}
 .row .l{min-width:0}
 .row .nm{font-weight:600}
-.row .nt{display:block;color:var(--muted);font-size:13.5px}
-.row .sc{font:500 14px/1.6 var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
-.row .sc small{display:block;font-size:11px;color:var(--muted)}
-.fine{color:var(--muted);font-size:13.5px;margin:14px 0 0}
-.checks{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.checks li{border-bottom:1px solid var(--line)}
-.checks label{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer}
-.checks input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+.row .nm a{color:var(--ink);text-decoration:none}
+.row .nm a::after{content:" ↗";color:var(--muted);font-weight:400;font-size:12px}
+.row .nt{display:block;color:var(--muted);font-size:13px}
+.sc{font:500 13px/1 var(--font-mono);font-variant-numeric:tabular-nums;text-align:center;white-space:nowrap;padding:7px 9px;border-radius:10px;background:var(--accent-soft);color:var(--accent);min-width:58px}
+.sc small{display:block;font-size:9.5px;margin-top:3px;color:var(--muted)}
+.fine{color:var(--muted);font-size:13px;margin:14px 2px 0}
+
+/* checklist */
+.checks{list-style:none;margin:0;padding:4px 18px}
+.checks li + li{border-top:1px solid var(--line)}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:14px 0;cursor:pointer}
+.checks input{margin-top:3px;width:20px;height:20px;accent-color:var(--accent);flex:none}
 .checks input:checked + span{color:var(--muted);text-decoration:line-through}
-.srcs{padding-left:18px;margin:0}
-.srcs li{margin:4px 0;min-width:0}
-footer{margin-top:44px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
-@media (max-width:420px){
-  .stop{grid-template-columns:3.6rem 1fr;gap:10px}
-  .dayhead .num{font-size:38px}
+.progress{font:500 12px/1 var(--font-mono);color:var(--muted);margin-left:auto}
+
+.srcs{padding-left:18px;margin:0;font-size:14px}
+.srcs li{margin:6px 0;min-width:0}
+footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
+
+@media (max-width:520px){
+  .meta{grid-template-columns:1fr 1fr}
+  .meta div:last-child{grid-column:1 / -1}
 }
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+@media (min-width:700px){
+  .foodgrid{grid-template-columns:1fr 1fr}
+  .foodgrid .card:first-child{grid-column:1 / -1}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<div class="band"></div>
-<div class="wrap">
-  <h1>후쿠오카 4박 5일</h1>
-  <p class="sub">11월 12일(목)부터 16일(월)까지. 친구와 둘이 갑니다.</p>
-  <dl class="meta">
-    <div><dt>가는 편</dt><dd>11/12(목) 11:10 인천 출발</dd></div>
-    <div><dt>오는 편</dt><dd>11/16(월) 13:50 후쿠오카 출발</dd></div>
-    <div><dt>숙소</dt><dd>에어비앤비, 하카타역 근처</dd></div>
-  </dl>
-  <nav class="chips" id="nav" aria-label="날짜 이동"></nav>
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">FUKUOKA · 2026.11.12 – 11.16</p>
+    <h1>후쿠오카 4박 5일</h1>
+    <p class="sub">11월 12일(목)부터 16일(월)까지. 친구와 둘이 갑니다.</p>
+  </div>
+  <div class="band"></div>
+</header>
 
+<div class="wrap">
+  <dl class="meta">
+    <div><dt>가는 편</dt><dd>11/12(목) 11:10<small>인천 출발</small></dd></div>
+    <div><dt>오는 편</dt><dd>11/16(월) 13:50<small>후쿠오카 출발</small></dd></div>
+    <div><dt>숙소</dt><dd>에어비앤비<small>하카타역 근처</small></dd></div>
+  </dl>
+</div>
+
+<nav class="navbar" aria-label="섹션 이동">
+  <div class="wrap"><div class="chips" id="nav"></div></div>
+</nav>
+
+<main class="wrap">
   <section id="alerts">
     <h2>먼저 확인할 것</h2>
     <ul class="alerts" id="alertList"></ul>
   </section>
 
-  <section id="days"></section>
+  <section id="mapsec">
+    <h2>지도</h2>
+    <div class="card mapcard">
+      <div class="mapfilter" id="mapFilter" role="group" aria-label="지도에 표시할 날짜"></div>
+      <div id="map" role="region" aria-label="일정 지도"></div>
+      <p class="mapnote">핀은 OpenStreetMap 기준 대략 위치입니다. 길찾기는 핀을 눌러 구글 지도로 여세요. 위치를 특정하지 못한 가게는 핀 없이 링크만 있습니다.</p>
+    </div>
+  </section>
+
+  <section id="days">
+    <h2>일정</h2>
+    <div id="dayList"></div>
+  </section>
 
   <section class="food" id="food">
     <h2>맛집 후보</h2>
-    <p class="sub">다케시와 동료분 추천에 다베로그 상위 가게를 더했습니다. 점수는 다베로그 카테고리 랭킹 기준이고, 점수가 없는 곳은 확인하지 못한 곳입니다.</p>
-    <div id="foodList"></div>
+    <p class="lead">다케시와 동료분 추천에 다베로그 상위 가게를 더했습니다. 점수는 다베로그 카테고리 랭킹 기준이고, 점수가 없는 곳은 확인하지 못한 곳입니다.</p>
+    <div class="foodgrid" id="foodList"></div>
     <p class="fine">이쿠라(오므라이스)와 아임도넛은 동료분이 여성분과 함께일 때 추천한 곳이라 이번 일정에서 뺐습니다. 친푼칸푼의 "텐진점은 피하라"는 말은 확인하지 못했고, 다케시 리스트의 焼き鳥八幡은 가게를 특정하지 못했습니다.</p>
   </section>
 
   <section id="todo">
-    <h2>예약과 확인 목록</h2>
-    <ul class="checks" id="checkList"></ul>
+    <h2 style="display:flex;align-items:baseline">예약과 확인 목록<span class="progress" id="progress"></span></h2>
+    <div class="card" style="padding:0"><ul class="checks" id="checkList"></ul></div>
   </section>
 
   <section>
@@ -146,12 +249,15 @@ footer{margin-top:44px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   </section>
 
   <footer>마지막 확인 2026-10-25. 영업 시간과 휴무일은 방문 전에 다시 확인하세요.</footer>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 (function(){
   var MAP = function(q){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q); };
   var TAG = { ok:"확정", warn:"미확인", crit:"예약 필요" };
+  var ICON_MAP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+  var ICON_OUT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>';
 
   var alerts = [
     { tag:"crit", tl:"스모 티켓", t:"일반 발매는 완매이고 당일권도 없습니다.",
@@ -162,80 +268,81 @@ footer{margin-top:44px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       d:"그날 18:00에 돔에서 후지이 카제 콘서트가 열려 시내가 붐빌 수 있습니다." }
   ];
 
+  // ll: approximate coordinates from OpenStreetMap; stops without ll get a Google Maps link only.
   var days = [
-    { id:"d1", num:"12", lbl:"11월 · 목", ttl:"도착일",
+    { id:"d1", num:"12", wd:"목", lbl:"11월 · 목", ttl:"도착일",
       note:"하루에 식사를 세 번 넣었습니다. 몸 상태를 보고 야타이는 빼도 됩니다.",
       stops:[
-        { t:"12:30경", n:"공항 도착 후 숙소로", d:"도착 시각은 추정입니다. 공항선 지하철로 하카타역까지 이동해 짐을 맡깁니다.", q:"福岡空港", tags:[["warn","시각 추정"]] },
-        { t:"15:00경", n:"一幸舎 総本店", d:"거품(泡系) 돈코츠 라멘의 원조. 다베로그는 지점별로 3.45~3.49입니다.", q:"博多一幸舎 総本店", src:"다케시" },
-        { t:"오후", n:"캐널시티와 나카스 산책", d:"첫날은 걷기만 합니다.", q:"キャナルシティ博多" },
+        { t:"12:30경", n:"공항 도착 후 숙소로", d:"도착 시각은 추정입니다. 공항선 지하철로 하카타역까지 이동해 짐을 맡깁니다.", q:"福岡空港", ll:[33.5848,130.4443], tags:[["warn","시각 추정"]] },
+        { t:"15:00경", n:"一幸舎 総本店", d:"거품(泡系) 돈코츠 라멘의 원조. 다베로그는 지점별로 3.45~3.49입니다.", q:"博多一幸舎 総本店", ll:[33.5890,130.4214], src:"다케시" },
+        { t:"오후", n:"캐널시티와 나카스 산책", d:"첫날은 걷기만 합니다.", q:"キャナルシティ博多", ll:[33.5897,130.4111] },
         { t:"저녁", n:"博多もつ鍋おおやま", d:"후쿠오카 모츠나베 매출 1위 체인입니다. 지점이 많아 숙소 가까운 곳으로 고르면 됩니다.", q:"博多もつ鍋おおやま 呉服町", src:"동료" },
-        { t:"밤", n:"나카스 야타이", d:"오뎅, 야키토리, 교자 위주로 한두 곳. 라멘은 낮에 먹었으니 생략합니다.", q:"中洲 屋台" }
+        { t:"밤", n:"나카스 야타이", d:"오뎅, 야키토리, 교자 위주로 한두 곳. 라멘은 낮에 먹었으니 생략합니다.", q:"中洲 屋台", ll:[33.5914,130.4071] }
       ]},
-    { id:"d2", num:"13", lbl:"11월 · 금", ttl:"돔 투어, 다케시와 저녁",
+    { id:"d2", num:"13", wd:"금", lbl:"11월 · 금", ttl:"돔 투어, 다케시와 저녁",
       stops:[
-        { t:"점심", n:"天麩羅処ひらお アクロス福岡店", d:"다베로그 3.67, 텐푸라 百名店 2025. 새우 튀김이 대표입니다.", q:"天麩羅処ひらお アクロス福岡", src:"동료" },
-        { t:"오후", n:"미즈호 페이페이돔 투어", d:"ドーム満喫コース(벤치, 라커룸, 불펜)나 アドベンチャーコース(지붕 위 약 35m) 중에서 고릅니다. 접수는 BOSS E・ZO FUKUOKA 3층이고, 唐人町역 3번 출구에서 도보 약 15분입니다. 야구 시즌이 끝나 練習見学코스와 경기 후 코스는 해당되지 않습니다.", q:"みずほPayPayドーム福岡", links:[["투어 사이트","https://dometour.softbankhawks.co.jp/"]], tags:[["warn","일정 미확인"]] },
-        { t:"대안", n:"모모치 해변, 후쿠오카 타워", d:"투어가 열리지 않으면 같은 동네에서 산책으로 대신합니다.", q:"福岡タワー" },
+        { t:"점심", n:"天麩羅処ひらお アクロス福岡店", d:"다베로그 3.67, 텐푸라 百名店 2025. 새우 튀김이 대표입니다.", q:"天麩羅処ひらお アクロス福岡", ll:[33.5915,130.4024], src:"동료" },
+        { t:"오후", n:"미즈호 페이페이돔 투어", d:"ドーム満喫コース(벤치, 라커룸, 불펜)나 アドベンチャーコース(지붕 위 약 35m) 중에서 고릅니다. 접수는 BOSS E・ZO FUKUOKA 3층이고, 唐人町역 3번 출구에서 도보 약 15분입니다. 야구 시즌이 끝나 練習見学코스와 경기 후 코스는 해당되지 않습니다.", q:"みずほPayPayドーム福岡", ll:[33.5953,130.3621], links:[["투어 사이트","https://dometour.softbankhawks.co.jp/"]], tags:[["warn","일정 미확인"]] },
+        { t:"대안", n:"모모치 해변, 후쿠오카 타워", d:"투어가 열리지 않으면 같은 동네에서 산책으로 대신합니다.", q:"福岡タワー", ll:[33.5933,130.3515] },
         { t:"저녁", n:"다케시와 저녁", d:"약속은 잡았고 장소는 아직 정하지 않았습니다. 아래 후보에서 같이 고르면 됩니다.", tags:[["ok","확정"]] }
       ]},
-    { id:"d3", num:"14", lbl:"11월 · 토", ttl:"기타큐슈 당일치기",
+    { id:"d3", num:"14", wd:"토", lbl:"11월 · 토", ttl:"기타큐슈 당일치기",
       stops:[
-        { t:"오전", n:"고쿠라", d:"하카타에서 신칸센으로 약 15분. 야키우동의 발상지입니다.", q:"小倉駅" },
-        { t:"오후", n:"모지코", d:"야키카레의 발상지입니다.", q:"門司港駅" },
+        { t:"오전", n:"고쿠라", d:"하카타에서 신칸센으로 약 15분. 야키우동의 발상지입니다.", q:"小倉駅", ll:[33.8868,130.8822] },
+        { t:"오후", n:"모지코", d:"야키카레의 발상지입니다.", q:"門司港駅", ll:[33.9451,130.9615] },
         { t:"저녁", n:"焼鳥 森本 또는 鳥カミ GARDEN CITY", d:"森本 3.73, 鳥カミ 3.65. 둘 다 야키토리 百名店 2025이고 코스제입니다.", q:"焼鳥森本 福岡", links:[["鳥カミ 지도","鳥カミ GARDEN CITY 福岡"]], tags:[["crit","예약 필요"]] },
-        { t:"2차", n:"食堂うめぼし 大名", d:"20대 취향의 저렴한 술집입니다. 점포가 여러 곳이라 동료분이 보낸 링크의 지점을 확인하세요.", q:"食堂うめぼし 大名", src:"동료" },
+        { t:"2차", n:"食堂うめぼし 大名", d:"20대 취향의 저렴한 술집입니다. 점포가 여러 곳이라 동료분이 보낸 링크의 지점을 확인하세요.", q:"食堂うめぼし 大名", ll:[33.5884,130.3936], src:"동료" },
         { t:"심야", n:"ShinShin 天神本店", d:"다베로그 3.58. 심야에도 줄이 있다는 후기가 있습니다.", q:"博多らーめんShinShin 天神本店", src:"다케시" }
       ]},
-    { id:"d4", num:"15", lbl:"11월 · 일", ttl:"스모 또는 굴과 사케",
+    { id:"d4", num:"15", wd:"일", lbl:"11월 · 일", ttl:"스모 또는 굴과 사케",
       note:"일요일은 쉬는 가게가 많습니다. 粋恭, さしす, 兼虎의 영업 여부를 다베로그에서 확인하세요.",
       stops:[
-        { t:"낮", n:"스모 규슈바쇼 중일", d:"표가 있을 때만 갑니다. 후쿠오카 국제센터이고 경기는 18시경 끝납니다.", q:"福岡国際センター", links:[["판매 상황","https://sumo.pia.jp/vacant/va11.jsp"]], tags:[["warn","표 없음"]] },
-        { t:"표 없으면", n:"麺や兼虎 天神本店", d:"츠케멘 전문점입니다. 줄이 길다는 후기가 많습니다.", q:"麺や兼虎 天神本店", src:"다케시" },
+        { t:"낮", n:"스모 규슈바쇼 중일", d:"표가 있을 때만 갑니다. 후쿠오카 국제센터이고 경기는 18시경 끝납니다.", q:"福岡国際センター", ll:[33.6032,130.4013], links:[["판매 상황","https://sumo.pia.jp/vacant/va11.jsp"]], tags:[["warn","표 없음"]] },
+        { t:"표 없으면", n:"麺や兼虎 天神本店", d:"츠케멘 전문점입니다. 줄이 길다는 후기가 많습니다.", q:"麺や兼虎 天神本店", ll:[33.5872,130.4012], src:"다케시" },
         { t:"오후", n:"이토시마 굴 오두막 또는 石蔵酒造", d:"굴 오두막은 가게별로 10월 초중순부터 문을 엽니다. 가게는 아직 정하지 않았습니다. 石蔵酒造는 견학 없이 직판장과 시음만 운영합니다.", q:"石蔵酒造 博多" },
-        { t:"저녁", n:"とりかわ 粋恭", d:"야쿠인. 다베로그 3.52, 야키토리 百名店 2024. 닭껍질 꼬치가 대표입니다.", q:"とりかわ粋恭 薬院", src:"다케시" },
-        { t:"2차", n:"すし酒場さしす 天神店", d:"예약을 받지 않아 웨이팅이 필수입니다.", url:"https://maps.app.goo.gl/M3tcmLMhncTbvkoY8", src:"동료" }
+        { t:"저녁", n:"とりかわ 粋恭", d:"야쿠인. 다베로그 3.52, 야키토리 百名店 2024. 닭껍질 꼬치가 대표입니다.", q:"とりかわ粋恭 薬院", ll:[33.5820,130.3972], src:"다케시" },
+        { t:"2차", n:"すし酒場さしす 天神店", d:"예약을 받지 않아 웨이팅이 필수입니다.", url:"https://maps.app.goo.gl/M3tcmLMhncTbvkoY8", ll:[33.5867,130.4000], src:"동료" }
       ]},
-    { id:"d5", num:"16", lbl:"11월 · 월", ttl:"귀국일",
+    { id:"d5", num:"16", wd:"월", lbl:"11월 · 월", ttl:"귀국일",
       stops:[
         { t:"오전", n:"元祖博多めんたい重 博多店", d:"앉아서 먹는 가게가 아니라 도시락과 선물 전문점입니다. 명란 덮밥의 발상지입니다.", q:"元祖博多めんたい重 博多駅" },
         { t:"오전", n:"편의점과 드럭스토어", d:"동료분은 입문 메뉴 대신 편의점을 추천했습니다.", q:"ドラッグストア 博多駅" },
-        { t:"11:00경", n:"공항으로 출발", d:"13:50 출발이라 11:30~12:00에 공항 도착을 목표로 잡았습니다. 항공사의 체크인 마감 시각을 확인하세요.", q:"福岡空港 国際線ターミナル", tags:[["warn","시각 추정"]] }
+        { t:"11:00경", n:"공항으로 출발", d:"13:50 출발이라 11:30~12:00에 공항 도착을 목표로 잡았습니다. 항공사의 체크인 마감 시각을 확인하세요.", q:"福岡空港 国際線ターミナル", ll:[33.5848,130.4443], tags:[["warn","시각 추정"]] }
       ]}
   ];
 
   var food = [
     { c:"라멘과 츠케멘", items:[
-      ["ShinShin 天神本店","3.58","다케시 · 크리미하지만 느끼하지 않다는 후기가 많음","博多らーめんShinShin 天神本店"],
-      ["一幸舎","3.45~3.49","다케시 · 거품 돈코츠 원조, 지점별 점수","博多一幸舎 総本店"],
-      ["麺や兼虎 天神本店","","다케시 · 츠케멘, 연일 줄이 김","麺や兼虎 天神本店"],
-      ["元祖赤のれん 節ちゃんラーメン","","다케시 · 1946년 창업, 지금은 관광객이 대부분","元祖赤のれん節ちゃんラーメン 大名"]
+      { n:"ShinShin 天神本店", sc:"3.58", nt:"다케시 · 크리미하지만 느끼하지 않다는 후기가 많음", q:"博多らーめんShinShin 天神本店" },
+      { n:"一幸舎", sc:"3.45~3.49", nt:"다케시 · 거품 돈코츠 원조, 지점별 점수", q:"博多一幸舎 総本店", ll:[33.5890,130.4214] },
+      { n:"麺や兼虎 天神本店", nt:"다케시 · 츠케멘, 연일 줄이 김", q:"麺や兼虎 天神本店", ll:[33.5872,130.4012] },
+      { n:"元祖赤のれん 節ちゃんラーメン", nt:"다케시 · 1946년 창업, 지금은 관광객이 대부분", q:"元祖赤のれん節ちゃんラーメン 大名", ll:[33.5891,130.3958] }
     ]},
     { c:"모츠나베", items:[
-      ["もつ鍋 一慶 春吉本店","3.59","다베로그 · 2026 핫레스토랑 수상","もつ鍋一慶 春吉本店"],
-      ["春吉きんぎょ","3.59","다베로그 · 체인이 아닌 곳","春吉きんぎょ もつ鍋"],
-      ["博多もつ鍋おおやま","","동료 · 매출 1위 체인, 깔끔한 맛","博多もつ鍋おおやま 呉服町"],
-      ["楽天地","3.44","다케시 · 텐진 니시도리점 기준, 본점은 아크로스 지하 2층","元祖もつ鍋楽天地 天神 アクロス福岡"],
-      ["もつ料理 かわ乃","","1953년 창업 노포, 영업 여부 재확인 필요","もつ料理かわ乃 春吉"]
+      { n:"もつ鍋 一慶 春吉本店", sc:"3.59", nt:"다베로그 · 2026 핫레스토랑 수상", q:"もつ鍋一慶 春吉本店", ll:[33.5873,130.4063] },
+      { n:"春吉きんぎょ", sc:"3.59", nt:"다베로그 · 체인이 아닌 곳", q:"春吉きんぎょ もつ鍋" },
+      { n:"博多もつ鍋おおやま", nt:"동료 · 매출 1위 체인, 깔끔한 맛", q:"博多もつ鍋おおやま 呉服町" },
+      { n:"楽天地", sc:"3.44", nt:"다케시 · 텐진 니시도리점 기준, 본점은 아크로스 지하 2층", q:"元祖もつ鍋楽天地 天神 アクロス福岡" },
+      { n:"もつ料理 かわ乃", nt:"1953년 창업 노포, 영업 여부 재확인 필요", q:"もつ料理かわ乃 春吉" }
     ]},
     { c:"야키토리", items:[
-      ["焼鳥 森本","3.73","다베로그 · 百名店 2025, 코스제","焼鳥森本 福岡"],
-      ["鳥カミ GARDEN CITY","3.65","다베로그 · 百名店 2025","鳥カミ GARDEN CITY 福岡"],
-      ["とりかわ 粋恭","3.52","다케시 · 百名店 2024, 닭껍질 꼬치","とりかわ粋恭 薬院"],
-      ["八兵衛","","다케시 · 영어 메뉴 있음, 당일 예약은 어렵다는 후기","八兵衛 焼き鳥 福岡"],
-      ["ちんぷんかんぷん","3.34","동료 · 입구 찾기 어려운 가게, 텐진점 제외는 미확인","ちんぷんかんぷん 焼き鳥 福岡"]
+      { n:"焼鳥 森本", sc:"3.73", nt:"다베로그 · 百名店 2025, 코스제", q:"焼鳥森本 福岡" },
+      { n:"鳥カミ GARDEN CITY", sc:"3.65", nt:"다베로그 · 百名店 2025", q:"鳥カミ GARDEN CITY 福岡" },
+      { n:"とりかわ 粋恭", sc:"3.52", nt:"다케시 · 百名店 2024, 닭껍질 꼬치", q:"とりかわ粋恭 薬院", ll:[33.5820,130.3972] },
+      { n:"八兵衛", nt:"다케시 · 영어 메뉴 있음, 당일 예약은 어렵다는 후기", q:"八兵衛 焼き鳥 福岡" },
+      { n:"ちんぷんかんぷん", sc:"3.34", nt:"동료 · 입구 찾기 어려운 가게, 텐진점 제외는 미확인", q:"ちんぷんかんぷん 焼き鳥 福岡" }
     ]},
     { c:"스시와 튀김", items:[
-      ["在掌","4.03","다베로그 · 百名店 2025, 코스 2~3만엔대","在掌 福岡 寿司"],
-      ["鮨ぶんぺい","3.80","다베로그 · 코스 2~3만엔대","鮨ぶんぺい 福岡"],
-      ["すし酒場さしす 天神店","","동료 · 예약 불가, 웨이팅","",  "https://maps.app.goo.gl/M3tcmLMhncTbvkoY8"],
-      ["天麩羅処ひらお アクロス店","3.67","동료 · 텐푸라 百名店 2025","天麩羅処ひらお アクロス福岡"]
+      { n:"在掌", sc:"4.03", nt:"다베로그 · 百名店 2025, 코스 2~3만엔대", q:"在掌 福岡 寿司" },
+      { n:"鮨ぶんぺい", sc:"3.80", nt:"다베로그 · 코스 2~3만엔대", q:"鮨ぶんぺい 福岡" },
+      { n:"すし酒場さしす 天神店", nt:"동료 · 예약 불가, 웨이팅", url:"https://maps.app.goo.gl/M3tcmLMhncTbvkoY8", ll:[33.5867,130.4000] },
+      { n:"天麩羅処ひらお アクロス店", sc:"3.67", nt:"동료 · 텐푸라 百名店 2025", q:"天麩羅処ひらお アクロス福岡", ll:[33.5915,130.4024] }
     ]},
     { c:"명란과 술집", items:[
-      ["元祖博多めんたい重 西中洲 본점","3.50","다케시 · 앉아서 먹는 본점","元祖博多めんたい重 西中洲"],
-      ["食堂うめぼし 大名","","동료 · 저렴한 술집","食堂うめぼし 大名"],
-      ["HANJAN 天神大名店","3.08","동료 · 한국식 포차, 리뷰 13개라 참고용, 금·토 밤 예약 권장","HANJAN 天神大名店"],
-      ["나카스 야타이","","현장에서 붐비는 곳으로","中洲 屋台"]
+      { n:"元祖博多めんたい重 西中洲 본점", sc:"3.50", nt:"다케시 · 앉아서 먹는 본점", q:"元祖博多めんたい重 西中洲" },
+      { n:"食堂うめぼし 大名", nt:"동료 · 저렴한 술집", q:"食堂うめぼし 大名", ll:[33.5884,130.3936] },
+      { n:"HANJAN 天神大名店", sc:"3.08", nt:"동료 · 한국식 포차, 리뷰 13개라 참고용, 금·토 밤 예약 권장", q:"HANJAN 天神大名店" },
+      { n:"나카스 야타이", nt:"현장에서 붐비는 곳으로", q:"中洲 屋台", ll:[33.5914,130.4071] }
     ]}
   ];
 
@@ -250,26 +357,33 @@ footer{margin-top:44px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   ];
 
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
-  function link(label,target){
-    var href = /^https?:/.test(target) ? target : MAP(target);
-    return '<a href="'+esc(href)+'" target="_blank" rel="noopener">'+esc(label)+'</a>';
-  }
+  function href(target){ return /^https?:/.test(target) ? target : MAP(target); }
+  function link(label,target){ return '<a href="'+esc(href(target))+'" target="_blank" rel="noopener">'+esc(label)+'</a>'; }
+  function dayColor(i){ return "var(--d"+(i+1)+")"; }
 
   // nav
   var nav = document.getElementById("nav");
-  nav.innerHTML = days.map(function(d){ return '<a class="chip" href="#'+d.id+'" data-t="'+d.id+'">'+d.num+'일</a>'; }).join("")
-    + '<a class="chip" href="#food" data-t="food">맛집</a><a class="chip" href="#todo" data-t="todo">할 일</a>';
-  nav.addEventListener("click",function(e){
-    var a = e.target.closest("a[data-t]"); if(!a) return;
-    e.preventDefault();
-    var el = document.getElementById(a.getAttribute("data-t"));
-    if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
-  });
+  var navItems = [["alerts","확인"],["mapsec","지도"]]
+    .concat(days.map(function(d,i){ return [d.id, d.num+"일 "+d.wd, dayColor(i)]; }))
+    .concat([["food","맛집"],["todo","할 일"]]);
+  nav.innerHTML = navItems.map(function(n){
+    return '<a class="chip" href="#'+n[0]+'" data-t="'+n[0]+'"'+(n[2]?' style="--c:'+n[2]+'"':'')+'>'+(n[2]?'<i></i>':'')+esc(n[1])+'</a>';
+  }).join("");
+  var chipEls = nav.querySelectorAll(".chip");
+  function setActive(id){
+    chipEls.forEach(function(c){
+      var on = c.getAttribute("data-t")===id;
+      c.setAttribute("aria-current", on ? "true" : "false");
+      if(on){ nav.scrollTo({ left: c.offsetLeft - nav.clientWidth/2 + c.offsetWidth/2, behavior:"smooth" }); }
+    });
+  }
 
   // alerts
   document.getElementById("alertList").innerHTML = alerts.map(function(a){
-    return '<li><b>'+esc(a.tl)+'<span class="tag '+a.tag+'">'+TAG[a.tag]+'</span></b>'
-      + '<p>'+esc(a.t)+' '+esc(a.d)+(a.phone ? ' <span>'+esc(a.phone)+'</span><button class="copy" type="button" data-copy="'+esc(a.phone)+'">복사</button>' : '')+'</p></li>';
+    return '<li class="'+a.tag+'"><b>'+esc(a.tl)+'<span class="tag '+a.tag+'">'+TAG[a.tag]+'</span></b>'
+      + '<p>'+esc(a.t)+' '+esc(a.d)+'</p>'
+      + (a.phone ? '<div class="phone"><a href="tel:+81'+esc(a.phone.replace(/^0/,"").replace(/-/g,""))+'">'+esc(a.phone)+'</a><button class="copy" type="button" data-copy="'+esc(a.phone)+'">복사</button></div>' : '')
+      + '</li>';
   }).join("");
   document.getElementById("alertList").addEventListener("click",function(e){
     var b = e.target.closest("button[data-copy]"); if(!b) return;
@@ -280,29 +394,30 @@ footer{margin-top:44px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   });
 
   // days
-  document.getElementById("days").innerHTML = days.map(function(d){
-    var stops = d.stops.map(function(s){
+  document.getElementById("dayList").innerHTML = days.map(function(d,di){
+    var pinNo = 0;
+    var stops = d.stops.map(function(s,si){
       var tags = (s.tags||[]).map(function(t){ return '<span class="tag '+t[0]+'">'+esc(t[1])+'</span>'; }).join("");
       var src = s.src ? '<span class="src">'+esc(s.src)+'</span>' : "";
-      var links = [];
-      if(s.url) links.push(link("지도",s.url)); else if(s.q) links.push(link("지도",s.q));
-      (s.links||[]).forEach(function(l){ links.push(link(l[0],l[1])); });
-      return '<li class="stop"><div class="time">'+esc(s.t)+'</div><div class="body"><div class="name">'+esc(s.n)+tags+src+'</div>'
-        + '<p>'+esc(s.d)+'</p>'+(links.length?'<div class="links">'+links.join("")+'</div>':"")+'</div></li>';
+      var acts = [];
+      if(s.ll){ pinNo++; s.no = pinNo; acts.push('<button class="btn pinbtn" type="button" data-pin="'+d.id+':'+si+'">'+ICON_MAP+'지도에서 보기</button>'); }
+      if(s.url || s.q) acts.push('<a class="btn" href="'+esc(href(s.url||s.q))+'" target="_blank" rel="noopener">'+ICON_OUT+'구글 지도</a>');
+      (s.links||[]).forEach(function(l){ acts.push('<a class="btn" href="'+esc(href(l[1]))+'" target="_blank" rel="noopener">'+ICON_OUT+esc(l[0])+'</a>'); });
+      return '<li class="stop"><div class="time">'+esc(s.t)+'</div><div class="name">'+esc(s.n)+tags+src+'</div>'
+        + '<p>'+esc(s.d)+'</p>'+(acts.length?'<div class="acts">'+acts.join("")+'</div>':"")+'</li>';
     }).join("");
-    return '<div class="day" id="'+d.id+'"><div class="dayhead"><span class="num">'+d.num+'</span><span class="lbl">'+esc(d.lbl)+'</span><span class="ttl">'+esc(d.ttl)+'</span></div>'
+    return '<article class="card day" id="'+d.id+'" style="--c:'+dayColor(di)+'"><div class="dayhead"><div class="num">'+d.num+'<small>'+esc(d.wd)+'</small></div><div><div class="lbl">'+esc(d.lbl)+'</div><h3 class="ttl">'+esc(d.ttl)+'</h3></div></div>'
       + (d.note ? '<p class="daynote">'+esc(d.note)+'</p>' : "")
-      + '<ul class="stops">'+stops+'</ul></div>';
+      + '<ul class="stops">'+stops+'</ul></article>';
   }).join("");
 
   // food
   document.getElementById("foodList").innerHTML = food.map(function(g){
     var rows = g.items.map(function(it){
-      var target = it[4] || it[3];
-      var sc = it[1] ? '<div class="sc">'+esc(it[1])+'<small>다베로그</small></div>' : '<div class="sc"></div>';
-      return '<li class="row"><div class="l"><span class="nm">'+link(it[0],target)+'</span><span class="nt">'+esc(it[2])+'</span></div>'+sc+'</li>';
+      var sc = it.sc ? '<div class="sc">'+esc(it.sc)+'<small>다베로그</small></div>' : '<div></div>';
+      return '<li class="row"><div class="l"><span class="nm">'+link(it.n, it.url || it.q)+'</span><span class="nt">'+esc(it.nt)+'</span></div>'+sc+'</li>';
     }).join("");
-    return '<h3>'+esc(g.c)+'</h3><ul class="rows">'+rows+'</ul>';
+    return '<div class="card"><h3>'+esc(g.c)+'</h3><ul class="rows">'+rows+'</ul></div>';
   }).join("");
 
   // checklist (per-viewer convenience only)
@@ -310,14 +425,110 @@ footer{margin-top:44px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   var saved = {};
   try{ saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; }catch(e){ saved = {}; }
   var list = document.getElementById("checkList");
+  var progress = document.getElementById("progress");
+  function updateProgress(){
+    var n = todo.filter(function(t){ return saved[t[0]]; }).length;
+    progress.textContent = n + " / " + todo.length;
+  }
   list.innerHTML = todo.map(function(t){
     return '<li><label for="ck-'+t[0]+'"><input type="checkbox" id="ck-'+t[0]+'"'+(saved[t[0]]?" checked":"")+'><span>'+esc(t[1])+'</span></label></li>';
   }).join("");
+  updateProgress();
   list.addEventListener("change",function(e){
     var cb = e.target; if(!cb || cb.type!=="checkbox") return;
     saved[cb.id.replace("ck-","")] = cb.checked;
+    updateProgress();
     try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(err){}
   });
+
+  // active tab while scrolling
+  if("IntersectionObserver" in window){
+    var targets = navItems.map(function(n){ return document.getElementById(n[0]); }).filter(Boolean);
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) setActive(en.target.id); });
+    },{ rootMargin:"-70px 0px -65% 0px" });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+
+  // map
+  var mapEl = document.getElementById("map");
+  var filterEl = document.getElementById("mapFilter");
+  if(!window.L){
+    mapEl.outerHTML = '<div class="mapfail">지도를 불러오지 못했습니다. 각 장소의 구글 지도 링크를 이용하세요.</div>';
+    filterEl.hidden = true;
+    return;
+  }
+  var css = getComputedStyle(document.documentElement);
+  function cssVar(name){ return css.getPropertyValue(name).trim(); }
+  var dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  var theme = document.documentElement.getAttribute("data-theme");
+  if(theme) dark = theme === "dark";
+
+  var map = L.map(mapEl, { scrollWheelZoom:false }).setView([33.59,130.40], 13);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom:19, className: dark ? "tiles-dark" : "",
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+  }).addTo(map);
+
+  var groups = {};
+  function popup(title, sub, target){
+    return '<b>'+esc(title)+'</b>'+(sub?'<small>'+esc(sub)+'</small><br>':'')+(target?'<a href="'+esc(href(target))+'" target="_blank" rel="noopener">구글 지도에서 열기 ↗</a>':'');
+  }
+  days.forEach(function(d,di){
+    var color = cssVar("--d"+(di+1));
+    var g = groups[d.id] = L.featureGroup();
+    d.stops.forEach(function(s){
+      if(!s.ll) return;
+      var icon = L.divIcon({ className:"", html:'<div class="pin" style="--c:'+color+'"><span>'+s.no+'</span></div>', iconSize:[28,28], iconAnchor:[14,28], popupAnchor:[0,-26] });
+      s.marker = L.marker(s.ll, { icon:icon, title:s.n }).bindPopup(popup(s.n, d.num+"일 "+s.t, s.url||s.q));
+      g.addLayer(s.marker);
+    });
+  });
+  var foodColor = cssVar("--food");
+  var fg = groups.food = L.featureGroup();
+  food.forEach(function(gr){
+    gr.items.forEach(function(it){
+      if(!it.ll) return;
+      var icon = L.divIcon({ className:"", html:'<div class="pin food" style="--c:'+foodColor+'"></div>', iconSize:[18,18], iconAnchor:[9,9], popupAnchor:[0,-8] });
+      fg.addLayer(L.marker(it.ll, { icon:icon, title:it.n }).bindPopup(popup(it.n, gr.c + (it.sc ? " · 다베로그 "+it.sc : ""), it.url||it.q)));
+    });
+  });
+
+  var filters = [["all","전체"]].concat(days.map(function(d,i){ return [d.id, d.num+"일", dayColor(i)]; })).concat([["food","맛집", "var(--food)"]]);
+  filterEl.innerHTML = filters.map(function(f){
+    return '<button class="chip" type="button" data-f="'+f[0]+'" aria-pressed="false"'+(f[2]?' style="--c:'+f[2]+'"':'')+'>'+(f[2]?'<i></i>':'')+esc(f[1])+'</button>';
+  }).join("");
+  var current = null;
+  function show(key, fit){
+    current = key;
+    Object.keys(groups).forEach(function(k){
+      var on = key==="all" ? k!=="food" : k===key;
+      if(on) groups[k].addTo(map); else map.removeLayer(groups[k]);
+    });
+    filterEl.querySelectorAll(".chip").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-f")===key ? "true" : "false"); });
+    if(fit !== false){
+      var b = L.latLngBounds([]);
+      Object.keys(groups).forEach(function(k){ if(map.hasLayer(groups[k])) b.extend(groups[k].getBounds()); });
+      if(b.isValid()) map.fitBounds(b, { padding:[28,28], maxZoom:15 });
+    }
+  }
+  filterEl.addEventListener("click",function(e){
+    var b = e.target.closest("button[data-f]"); if(!b) return;
+    show(b.getAttribute("data-f"));
+  });
+  show("d1");
+
+  document.getElementById("dayList").addEventListener("click",function(e){
+    var b = e.target.closest("button[data-pin]"); if(!b) return;
+    var p = b.getAttribute("data-pin").split(":");
+    var d = days.filter(function(x){ return x.id===p[0]; })[0];
+    var s = d && d.stops[+p[1]];
+    if(!s || !s.marker) return;
+    show(d.id, false);
+    document.getElementById("mapsec").scrollIntoView({ behavior:"smooth", block:"start" });
+    setTimeout(function(){ map.invalidateSize(); map.setView(s.ll, 16); s.marker.openPopup(); }, 350);
+  });
+  window.addEventListener("load", function(){ map.invalidateSize(); });
 })();
 </script>
 </body>
