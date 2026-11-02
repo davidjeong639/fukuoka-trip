@@ -153,6 +153,23 @@ h2{font:700 21px/1.3 var(--font-display);margin:0 0 12px;text-wrap:balance}
 .btn.pinbtn{border-color:transparent;background:color-mix(in srgb,var(--c) 14%,var(--surface));color:var(--ink)}
 .btn svg{width:14px;height:14px;flex:none}
 
+.near{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--food) 5%,var(--surface))}
+.near summary{cursor:pointer;list-style:none;padding:10px 12px;font:600 13.5px/1.3 var(--font-body);display:flex;align-items:center;gap:8px}
+.near summary::-webkit-details-marker{display:none}
+.near summary::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--food);flex:none}
+.near summary::after{content:"▾";margin-left:auto;color:var(--muted);transition:transform .2s}
+.near[open] summary::after{transform:rotate(180deg)}
+.near ul{list-style:none;margin:0;padding:0 12px 4px}
+.near li{padding:10px 0;border-top:1px solid var(--line)}
+.near .nhead{display:flex;align-items:baseline;gap:8px;font-weight:600}
+.near .nhead a{color:var(--ink);text-decoration:none}
+.near .nhead a::after{content:" ↗";color:var(--muted);font-weight:400;font-size:12px}
+.nsc{margin-left:auto;font:500 12px/1 var(--font-mono);color:var(--accent);background:var(--accent-soft);padding:4px 7px;border-radius:999px;white-space:nowrap}
+.near .nmeta{font:500 12px/1.4 var(--font-mono);color:var(--food);margin-top:2px}
+.near p{margin:3px 0 0;font-size:13.5px}
+.near .acts{margin-top:6px}
+.near .pinbtn{--c:var(--food)}
+
 /* food */
 .foodgrid{display:grid;gap:14px}
 .food h3{display:flex;align-items:center;gap:8px;font:700 16px/1.3 var(--font-display);margin:0 0 4px}
@@ -286,16 +303,16 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       note:"하루에 식사를 세 번 넣었습니다. 몸 상태를 보고 야타이는 빼도 됩니다.",
       stops:[
         { t:"12:30경", n:"공항 도착 후 숙소로", d:"도착 시각은 추정입니다. 공항선 지하철로 하카타역까지 이동해 짐을 맡깁니다.", q:"福岡空港", ll:[33.5848,130.4443], tags:[["warn","시각 추정"]] },
-        { t:"15:00경", n:"一幸舎 総本店", d:"거품(泡系) 돈코츠 라멘의 원조. 다베로그는 지점별로 3.45~3.49입니다.", q:"博多一幸舎 総本店", ll:[33.5890,130.4214], src:"다케시" },
-        { t:"오후", n:"캐널시티와 나카스 산책", d:"첫날은 걷기만 합니다.", q:"キャナルシティ博多", ll:[33.5897,130.4111] },
+        { t:"15:00경", n:"一幸舎 総本店", near:"hakata", d:"거품(泡系) 돈코츠 라멘의 원조. 다베로그는 지점별로 3.45~3.49입니다.", q:"博多一幸舎 総本店", ll:[33.5890,130.4214], src:"다케시" },
+        { t:"오후", n:"캐널시티와 나카스 산책", near:"nakasu", d:"첫날은 걷기만 합니다.", q:"キャナルシティ博多", ll:[33.5897,130.4111] },
         { t:"저녁", n:"博多もつ鍋おおやま", d:"후쿠오카 모츠나베 매출 1위 체인입니다. 지점이 많아 숙소 가까운 곳으로 고르면 됩니다.", q:"博多もつ鍋おおやま 呉服町", src:"동료" },
         { t:"밤", n:"나카스 야타이", d:"오뎅, 야키토리, 교자 위주로 한두 곳. 라멘은 낮에 먹었으니 생략합니다.", q:"中洲 屋台", ll:[33.5914,130.4071] }
       ]},
     { id:"d2", num:"13", wd:"금", lbl:"11월 · 금", ttl:"고마사바, 야구박물관, 다케시와 저녁",
       stops:[
-        { t:"점심", n:"博多ごまさば屋", d:"날고등어를 깨간장에 버무린 후쿠오카 명물 고마사바(ごまさば) 정식집입니다. 시메사바(초절임)가 메뉴에 있는지는 확인하지 못했습니다. 점심 11:00~13:30이고 일요일은 쉬어서 이날 갑니다. 赤坂역 도보 약 5분이라 박물관 가는 길에 들르기 좋습니다.", q:"博多ごまさば屋", ll:[33.5910,130.3930], tags:[["warn","시간 재확인"]] },
+        { t:"점심", n:"博多ごまさば屋", near:"akasaka", d:"날고등어를 깨간장에 버무린 후쿠오카 명물 고마사바(ごまさば) 정식집입니다. 시메사바(초절임)가 메뉴에 있는지는 확인하지 못했습니다. 점심 11:00~13:30이고 일요일은 쉬어서 이날 갑니다. 赤坂역 도보 약 5분이라 박물관 가는 길에 들르기 좋습니다.", q:"博多ごまさば屋", ll:[33.5910,130.3930], tags:[["warn","시간 재확인"]] },
         { t:"점심 대안", n:"天麩羅処ひらお アクロス福岡店", d:"다베로그 3.67, 텐푸라 百名店 2025. 새우 튀김이 대표입니다.", q:"天麩羅処ひらお アクロス福岡", ll:[33.5915,130.4024], src:"동료" },
-        { t:"오후", n:"王貞治ベースボールミュージアム", d:"BOSS E・ZO FUKUOKA 4층. 공식 영업시간표 기준 11/13은 11:00~19:00입니다. 성인 1,800엔(2025~26년 안내 기준). 티켓은 공식 사이트에서 미리 사거나, 남으면 3층 매표소에서 당일권을 삽니다. 唐人町역 도보 약 15분. 돔 투어는 이날 일정이 없어 뺐습니다.", q:"王貞治ベースボールミュージアム", ll:[33.5950,130.3638], links:[["공식 사이트","https://e-zofukuoka.com/obm/"],["영업시간","https://e-zofukuoka.com/schedule/"]] },
+        { t:"오후", n:"王貞治ベースボールミュージアム", near:"tojin", d:"BOSS E・ZO FUKUOKA 4층. 공식 영업시간표 기준 11/13은 11:00~19:00입니다. 성인 1,800엔(2025~26년 안내 기준). 티켓은 공식 사이트에서 미리 사거나, 남으면 3층 매표소에서 당일권을 삽니다. 唐人町역 도보 약 15분. 돔 투어는 이날 일정이 없어 뺐습니다.", q:"王貞治ベースボールミュージアム", ll:[33.5950,130.3638], links:[["공식 사이트","https://e-zofukuoka.com/obm/"],["영업시간","https://e-zofukuoka.com/schedule/"]] },
         { t:"시간 나면", n:"모모치 해변, 후쿠오카 타워", d:"박물관과 같은 동네라 걸어서 둘러볼 수 있습니다.", q:"福岡タワー", ll:[33.5933,130.3515] },
         { t:"저녁", n:"다케시와 저녁", d:"약속은 잡았고 장소는 아직 정하지 않았습니다. 아래 후보에서 같이 고르면 됩니다.", tags:[["ok","확정"]] }
       ]},
@@ -304,21 +321,21 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       stops:[
         { t:"08:50", n:"숙소 출발, 하카타역", d:"하카타역 근처라 걸어갑니다.", q:"博多駅", ll:[33.5900,130.4199] },
         { t:"09:10경", n:"신칸센 하카타 → 고쿠라", d:"약 15~17분, 자유석 2,160엔. 자유석이라 오는 열차 아무거나 타면 됩니다. 아끼려면 특급 소닉(약 50분, 1,910엔).", q:"小倉駅", ll:[33.8868,130.8822] },
-        { t:"09:30~11:00", n:"고쿠라성과 旦過市場", d:"고쿠라역에서 고쿠라성까지 도보 약 15분. 11~3월 천수각 9:00~17:00(안내 기준). 내려오는 길에 旦過市場 시장 구경. 고쿠라는 야키우동 발상지지만 점심이 야키카레, 저녁이 야키니쿠라 먹는다면 나눠 맛만 봅니다.", q:"小倉城", ll:[33.8844,130.8743], links:[["旦過市場","旦過市場"]] },
+        { t:"09:30~11:00", n:"고쿠라성과 旦過市場", near:"kokura", d:"고쿠라역에서 고쿠라성까지 도보 약 15분. 11~3월 천수각 9:00~17:00(안내 기준). 내려오는 길에 旦過市場 시장 구경. 고쿠라는 야키우동 발상지지만 점심이 야키카레, 저녁이 야키니쿠라 먹는다면 나눠 맛만 봅니다.", q:"小倉城", ll:[33.8844,130.8743], links:[["旦過市場","旦過市場"]] },
         { t:"11:10경", n:"JR 고쿠라 → 門司港", d:"가고시마본선 門司港행, 약 15분. 고쿠라역으로 돌아가 탑니다.", q:"門司港駅", ll:[33.9451,130.9615] },
         { t:"11:45", n:"焼きカレー こがねむし", d:"모지코 명물 야키카레(카레에 치즈를 올려 오븐에 구운 것) 노포입니다. 주인 혼자 운영하는 좁은 가게라 웨이팅이 많다고 해서 11:45 오픈에 맞춰 갑니다. 한국어 메뉴판이 있습니다. 야키카레 650엔(관광 안내 기준, 블로그에는 50엔 올랐다고 적혀 있음). 11:45~14:45, 재료가 떨어지면 일찍 닫습니다. 門司港역 도보 약 7분. 줄이 길면 역 앞 プリンセスピピ(도보 2분)나 伽哩本舗로 갑니다.", q:"焼きカレー こがねむし 門司港", ll:[33.9469,130.9665], src:"블로그", links:[["블로그 후기","https://blog.naver.com/jrhhere/224161787382"],["プリンセスピピ","プリンセスピピ 門司港"],["伽哩本舗","伽哩本舗 門司港レトロ店"]], tags:[["warn","휴무일 미확인"]] },
-        { t:"13:00~16:00", n:"모지코 레트로 산책", d:"旧門司税関(9:00~17:00, 무료), 보행자용 도개교 ブルーウィングもじ(10·11·13·14·15·16시에 열려 약 20분간 건널 수 없음), 門司港レトロ展望室. 시각은 안내 사이트 기준입니다.", q:"旧門司税関", ll:[33.9477,130.9636], links:[["展望室","門司港レトロハイマート展望室"]] },
+        { t:"13:00~16:00", n:"모지코 레트로 산책", near:"moji", d:"旧門司税関(9:00~17:00, 무료), 보행자용 도개교 ブルーウィングもじ(10·11·13·14·15·16시에 열려 약 20분간 건널 수 없음), 門司港レトロ展望室. 시각은 안내 사이트 기준입니다.", q:"旧門司税関", ll:[33.9477,130.9636], links:[["展望室","門司港レトロハイマート展望室"]] },
         { t:"16:00경", n:"門司港 → 고쿠라 → 하카타", d:"JR로 고쿠라(약 15분), 신칸센으로 하카타(약 15분). 16:50 전후 하카타 도착. 늦어도 17:30에는 門司港역을 출발합니다.", q:"門司港駅" },
         { t:"17:00~18:30", n:"숙소에서 쉬기", d:"짐을 두고 씻고 쉽니다." },
         { t:"18:35", n:"하카타 → 天神南", d:"지하철 나나쿠마선 하카타역 → 天神南역 약 3분, 내려서 도보 약 4분. 18:50 도착 목표.", q:"天神南駅" },
-        { t:"19:00", n:"焼肉すどう 春吉", d:"다베로그 3.93, 焼肉 百名店 2025. 직원이 옆에서 구워주는 완전 예약제 가게입니다. 一休 예약은 취소하면 100% 취소료가 붙습니다.", q:"焼肉すどう 春吉", links:[["一休 예약","https://restaurant.ikyu.com/113304/"]], tags:[["ok","예약 완료"]] },
+        { t:"19:00", n:"焼肉すどう 春吉", near:"haruyoshi", d:"다베로그 3.93, 焼肉 百名店 2025. 직원이 옆에서 구워주는 완전 예약제 가게입니다. 一休 예약은 취소하면 100% 취소료가 붙습니다.", q:"焼肉すどう 春吉", links:[["一休 예약","https://restaurant.ikyu.com/113304/"]], tags:[["ok","예약 완료"]] },
         { t:"21:00경", n:"食堂うめぼし 大名", d:"2차. 春吉에서 도보 약 15분. 20대 취향의 저렴한 술집입니다. 점포가 여러 곳이라 동료분이 보낸 링크의 지점을 확인하세요.", q:"食堂うめぼし 大名", ll:[33.5884,130.3936], src:"동료" },
         { t:"심야", n:"ShinShin 天神本店", d:"다베로그 3.58. 심야에도 줄이 있다는 후기가 있습니다.", q:"博多らーめんShinShin 天神本店", src:"다케시" }
       ]},
     { id:"d4", num:"15", wd:"일", lbl:"11월 · 일", ttl:"양조장, 鳥カミ",
       note:"일요일은 쉬는 가게가 많습니다. 鳥カミ, さしす, 兼虎의 영업 여부를 다베로그에서 확인하세요. 博多ごまさば屋는 일요일 휴무입니다.",
       stops:[
-        { t:"점심", n:"麺や兼虎 天神本店", d:"츠케멘 전문점입니다. 줄이 길다는 후기가 많습니다.", q:"麺や兼虎 天神本店", ll:[33.5872,130.4012], src:"다케시" },
+        { t:"점심", n:"麺や兼虎 天神本店", near:"daimyo", d:"츠케멘 전문점입니다. 줄이 길다는 후기가 많습니다.", q:"麺や兼虎 天神本店", ll:[33.5872,130.4012], src:"다케시" },
         { t:"오후", n:"博多百年蔵 (石蔵酒造)", d:"하카타에 하나 남은 양조장입니다. 정규 견학은 하지 않는다고 안내되어 있어, 전화로 견학이 되는지 물어보고 안 되면 직판장에서 시음하고 삽니다. 직판장은 11:00~17:00, 화요일 휴무. 千代県庁口역 도보 약 7분.", q:"博多百年蔵 石蔵酒造", links:[["공식 사이트","https://www.ishikura-shuzou.co.jp/"]], tags:[["warn","견학 미확인"]] },
         { t:"투어 대안", n:"キリンビール福岡工場", d:"꼭 공장 견학을 하고 싶을 때의 대안입니다. 아사쿠라시라 하카타에서 1시간 넘게 걸리고, 일요일은 생산 라인이 멈춰 영상으로 안내합니다. 공식 사이트에서 예약합니다.", q:"キリンビール福岡工場" },
         { t:"18:00", n:"鳥カミ GARDEN CITY", d:"다베로그 3.65, 야키토리 百名店 2025. 코스제입니다. 토요일에서 이날로 옮겼습니다.", q:"鳥カミ GARDEN CITY 福岡", tags:[["crit","예약 필요"]] },
@@ -326,7 +343,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       ]},
     { id:"d5", num:"16", wd:"월", lbl:"11월 · 월", ttl:"귀국일",
       stops:[
-        { t:"오전", n:"元祖博多めんたい重 博多店", d:"앉아서 먹는 가게가 아니라 도시락과 선물 전문점입니다. 명란 덮밥의 발상지입니다.", q:"元祖博多めんたい重 博多駅" },
+        { t:"오전", n:"元祖博多めんたい重 博多店", near:"hakata", d:"앉아서 먹는 가게가 아니라 도시락과 선물 전문점입니다. 명란 덮밥의 발상지입니다.", q:"元祖博多めんたい重 博多駅" },
         { t:"오전", n:"편의점과 드럭스토어", d:"동료분은 입문 메뉴 대신 편의점을 추천했습니다.", q:"ドラッグストア 博多駅" },
         { t:"11:00경", n:"공항으로 출발", d:"13:50 출발이라 11:30~12:00에 공항 도착을 목표로 잡았습니다. 항공사의 체크인 마감 시각을 확인하세요.", q:"福岡空港 国際線ターミナル", ll:[33.5848,130.4443], tags:[["warn","시각 추정"]] }
       ]}
@@ -376,6 +393,62 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     ]}
   ];
 
+  // nearby food per hub; walk time is computed from ll, or w is the walk time a source gave
+  var hubs = {
+    hakata:{ n:"하카타역", ll:[33.5900,130.4199], items:[
+      { n:"博多一双 博多駅東本店", g:"라멘", sc:"3.72", nt:"거품 돈코츠로 줄 서는 집. 11:00~24:00, 부정기 휴무(블로그 기준), 스프가 떨어지면 마감.", q:"博多一双 博多駅東本店", w:"도보 약 6분" },
+      { n:"一幸舎", g:"라멘", sc:"3.45~3.49", nt:"거품 돈코츠 원조. 지점별 점수.", q:"博多一幸舎 総本店", ll:[33.5890,130.4214] },
+      { n:"はかた天乃 KITTE博多店", g:"아침 정식", nt:"7:00부터 고마사바, 명란 덮밥 아침 정식 850엔~(2020년 기사 기준).", q:"はかた天乃 KITTE博多", ll:[33.5889,130.4194] },
+      { n:"大福うどん 1番街店", g:"우동", nt:"역 지하 1층. 7:00~21:30, 고보텐 우동 추천.", q:"大福うどん 博多1番街", w:"역 안" }
+    ]},
+    nakasu:{ n:"캐널시티·나카스", ll:[33.5905,130.4085], items:[
+      { n:"一蘭 本社総本店", g:"라멘", nt:"一蘭 본점. 24시간 영업, 2024년 리뉴얼. 中洲川端역 도보 1분.", q:"一蘭 本社総本店", ll:[33.5932,130.4046] },
+      { n:"鉄なべ 中洲本店", g:"교자, 이자카야", nt:"하카타 명물 철판 교자. 中洲川端역 도보 약 6분.", q:"鉄なべ 中洲本店", w:"中洲川端역 도보 약 6분" },
+      { n:"もつ鍋 一慶 春吉本店", g:"모츠나베", sc:"3.59", nt:"다베로그 2026 핫레스토랑 수상.", q:"もつ鍋一慶 春吉本店", ll:[33.5873,130.4063] },
+      { n:"元祖博多めんたい重 西中洲 본점", g:"명란 덮밥", sc:"3.50", nt:"앉아서 먹는 본점.", q:"元祖博多めんたい重 西中洲", w:"나카스 건너편" },
+      { n:"나카스 야타이", g:"포장마차", nt:"오뎅, 야키토리, 교자. 밤에 엽니다.", q:"中洲 屋台", ll:[33.5914,130.4071] }
+    ]},
+    akasaka:{ n:"텐진·아카사카", ll:[33.5905,130.3955], items:[
+      { n:"博多ごまさば屋", g:"고마사바", nt:"점심 11:00~13:30, 일요일 휴무.", q:"博多ごまさば屋", ll:[33.5910,130.3930] },
+      { n:"天麩羅処ひらお アクロス店", g:"텐푸라", sc:"3.67", nt:"텐푸라 百名店 2025.", q:"天麩羅処ひらお アクロス福岡", ll:[33.5915,130.4024] },
+      { n:"ひょうたん寿司", g:"스시", nt:"점심 11:30~14:30, 런치 1,050엔(안내 기준), 부정기 휴무. 같은 이름의 회전초밥집과 다른 가게.", q:"ひょうたん寿司 天神", ll:[33.5896,130.3987] },
+      { n:"元祖赤のれん 節ちゃんラーメン", g:"라멘", nt:"1946년 창업 노포.", q:"元祖赤のれん節ちゃんラーメン 大名", ll:[33.5891,130.3958] }
+    ]},
+    tojin:{ n:"도진마치·돔", ll:[33.5950,130.3638], items:[
+      { n:"BOSS E・ZO The FOODHALL", g:"푸드홀", nt:"박물관과 같은 건물 3층. 가게마다 영업시간이 다릅니다.", q:"BOSS E・ZO FUKUOKA The FOODHALL", w:"같은 건물" },
+      { n:"當仁うどん", g:"우동", nt:"唐人町역 바로 앞 노포. 쉬는 시간 없이 영업한다는 후기.", q:"當仁うどん 唐人町", w:"唐人町역 앞" }
+    ]},
+    kokura:{ n:"고쿠라", ll:[33.8835,130.8790], items:[
+      { n:"旦過市場", g:"시장", nt:"10:00~18:00경, 가게마다 다름.", q:"旦過市場", ll:[33.8812,130.8795] },
+      { n:"だるま堂", g:"야키우동", nt:"1945년 야키우동이 처음 생긴 가게로 소개됨. 旦過市場 근처. 토요일 영업은 미확인.", q:"だるま堂 焼うどん 小倉", w:"小倉역 도보 약 5분(기사 기준)" }
+    ]},
+    moji:{ n:"모지코", ll:[33.9451,130.9615], items:[
+      { n:"焼きカレー こがねむし", g:"야키카레", nt:"블로그 추천 노포, 11:45 오픈, 웨이팅 많음.", q:"焼きカレー こがねむし 門司港", ll:[33.9469,130.9665] },
+      { n:"BEAR FRUITS", g:"야키카레", nt:"유명 야키카레 가게. 스ー파ー 야키카레 1,210엔.", q:"BEAR FRUITS 門司港", ll:[33.9456,130.9612] },
+      { n:"プリンセスピピ 門司港本店", g:"야키카레", nt:"정기 휴무는 출처마다 다름.", q:"プリンセスピピ 門司港", ll:[33.9455,130.9610] },
+      { n:"伽哩本舗 門司港レトロ店", g:"야키카레", nt:"치즈 토핑 야키카레를 처음 낸 가게로 소개됨.", q:"伽哩本舗 門司港レトロ店", ll:[33.9459,130.9615] }
+    ]},
+    haruyoshi:{ n:"하루요시", ll:[33.5875,130.4045], items:[
+      { n:"もつ鍋 一慶 春吉本店", g:"모츠나베", sc:"3.59", nt:"2차로 모츠나베를 먹고 싶다면.", q:"もつ鍋一慶 春吉本店", ll:[33.5873,130.4063] },
+      { n:"春吉きんぎょ", g:"모츠나베", sc:"3.59", nt:"체인이 아닌 곳.", q:"春吉きんぎょ もつ鍋", w:"하루요시" },
+      { n:"나카스 야타이", g:"포장마차", nt:"강 건너 바로.", q:"中洲 屋台", ll:[33.5914,130.4071] },
+      { n:"一蘭 本社総本店", g:"라멘", nt:"24시간이라 마무리 라멘으로.", q:"一蘭 本社総本店", ll:[33.5932,130.4046] }
+    ]},
+    daimyo:{ n:"텐진·다이묘", ll:[33.5880,130.3975], items:[
+      { n:"麺や兼虎 天神本店", g:"츠케멘", nt:"줄이 길다는 후기가 많음.", q:"麺や兼虎 天神本店", ll:[33.5872,130.4012] },
+      { n:"すし酒場さしす 天神店", g:"스시 이자카야", nt:"예약 불가, 웨이팅.", url:"https://maps.app.goo.gl/M3tcmLMhncTbvkoY8", ll:[33.5867,130.4000] },
+      { n:"食堂うめぼし 大名", g:"이자카야", nt:"저렴한 술집.", q:"食堂うめぼし 大名", ll:[33.5884,130.3936] },
+      { n:"元祖赤のれん 節ちゃんラーメン", g:"라멘", nt:"1946년 창업 노포.", q:"元祖赤のれん節ちゃんラーメン 大名", ll:[33.5891,130.3958] },
+      { n:"ひょうたん寿司", g:"스시", nt:"일요일 저녁은 16:30~21:00이라는 안내가 있음.", q:"ひょうたん寿司 天神", ll:[33.5896,130.3987] }
+    ]}
+  };
+  function walkMin(a,b){
+    var R=6371000, r=Math.PI/180, dLat=(b[0]-a[0])*r, dLon=(b[1]-a[1])*r;
+    var h=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dLon/2)*Math.sin(dLon/2);
+    var m=2*R*Math.asin(Math.sqrt(h))*1.3; // straight line to street distance
+    return Math.max(1, Math.round(m/80));
+  }
+
   var todo = [
     ["torikami","11/15 18:00 鳥カミ GARDEN CITY 예약"],
     ["brew","博多百年蔵에 견학 가능 여부 문의(092-651-1986)"],
@@ -423,6 +496,20 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     }catch(err){ b.textContent="직접 선택"; }
   });
 
+  // nearby food panel under a stop
+  function nearPanel(id){
+    var h = hubs[id]; if(!h) return "";
+    var rows = h.items.map(function(it,ii){
+      var walk = it.ll ? "도보 약 "+walkMin(h.ll,it.ll)+"분" : (it.w || "");
+      var sc = it.sc ? '<span class="nsc">'+esc(it.sc)+'</span>' : "";
+      var pin = it.ll ? '<button class="btn pinbtn" type="button" data-near="'+id+':'+ii+'">'+ICON_MAP+'지도</button>' : "";
+      return '<li><div class="nhead"><a href="'+esc(href(it.url||it.q))+'" target="_blank" rel="noopener">'+esc(it.n)+'</a>'+sc+'</div>'
+        + '<div class="nmeta">'+esc(it.g)+(walk?' · '+esc(walk):'')+'</div>'
+        + '<p>'+esc(it.nt)+'</p>'+(pin?'<div class="acts">'+pin+'</div>':'')+'</li>';
+    }).join("");
+    return '<details class="near"><summary>근처 맛집 '+h.items.length+'곳 · '+esc(h.n)+'</summary><ul>'+rows+'</ul></details>';
+  }
+
   // days
   document.getElementById("dayList").innerHTML = days.map(function(d,di){
     var pinNo = 0;
@@ -434,7 +521,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       if(s.url || s.q) acts.push('<a class="btn" href="'+esc(href(s.url||s.q))+'" target="_blank" rel="noopener">'+ICON_OUT+'구글 지도</a>');
       (s.links||[]).forEach(function(l){ acts.push('<a class="btn" href="'+esc(href(l[1]))+'" target="_blank" rel="noopener">'+ICON_OUT+esc(l[0])+'</a>'); });
       return '<li class="stop"><div class="time">'+esc(s.t)+'</div><div class="name">'+esc(s.n)+tags+src+'</div>'
-        + '<p>'+esc(s.d)+'</p>'+(acts.length?'<div class="acts">'+acts.join("")+'</div>':"")+'</li>';
+        + '<p>'+esc(s.d)+'</p>'+(acts.length?'<div class="acts">'+acts.join("")+'</div>':"")+nearPanel(s.near)+'</li>';
     }).join("");
     return '<article class="card day" id="'+d.id+'" style="--c:'+dayColor(di)+'"><div class="dayhead"><div class="num">'+d.num+'<small>'+esc(d.wd)+'</small></div><div><div class="lbl">'+esc(d.lbl)+'</div><h3 class="ttl">'+esc(d.ttl)+'</h3></div></div>'
       + (d.note ? '<p class="daynote">'+esc(d.note)+'</p>' : "")
@@ -524,6 +611,17 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     });
   });
 
+  // one hidden group per hub; opened from a stop's nearby panel
+  Object.keys(hubs).forEach(function(id){
+    var h = hubs[id], g = groups["near-"+id] = L.featureGroup();
+    h.items.forEach(function(it){
+      if(!it.ll) return;
+      var icon = L.divIcon({ className:"", html:'<div class="pin food" style="--c:'+foodColor+'"></div>', iconSize:[18,18], iconAnchor:[9,9], popupAnchor:[0,-8] });
+      it.marker = L.marker(it.ll, { icon:icon, title:it.n }).bindPopup(popup(it.n, h.n+" 근처 · "+it.g+(it.sc ? " · 다베로그 "+it.sc : ""), it.url||it.q));
+      g.addLayer(it.marker);
+    });
+  });
+
   var filters = [["all","전체"]].concat(days.map(function(d,i){ return [d.id, d.num+"일", dayColor(i)]; })).concat([["food","맛집", "var(--food)"]]);
   filterEl.innerHTML = filters.map(function(f){
     return '<button class="chip" type="button" data-f="'+f[0]+'" aria-pressed="false"'+(f[2]?' style="--c:'+f[2]+'"':'')+'>'+(f[2]?'<i></i>':'')+esc(f[1])+'</button>';
@@ -532,7 +630,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   function show(key, fit){
     current = key;
     Object.keys(groups).forEach(function(k){
-      var on = key==="all" ? k!=="food" : k===key;
+      var on = key==="all" ? (k!=="food" && k.indexOf("near-")!==0) : k===key;
       if(on) groups[k].addTo(map); else map.removeLayer(groups[k]);
     });
     filterEl.querySelectorAll(".chip").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-f")===key ? "true" : "false"); });
@@ -587,6 +685,17 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   map.addControl(new LocCtl());
 
   document.getElementById("dayList").addEventListener("click",function(e){
+    var nb = e.target.closest("button[data-near]");
+    if(nb){
+      var np = nb.getAttribute("data-near").split(":");
+      var it = hubs[np[0]] && hubs[np[0]].items[+np[1]];
+      if(!it || !it.marker) return;
+      show(nb.closest(".day").id, false);
+      groups["near-"+np[0]].addTo(map);
+      document.getElementById("mapsec").scrollIntoView({ behavior:"smooth", block:"start" });
+      setTimeout(function(){ map.invalidateSize(); map.setView(it.ll, 16); it.marker.openPopup(); }, 350);
+      return;
+    }
     var b = e.target.closest("button[data-pin]"); if(!b) return;
     var p = b.getAttribute("data-pin").split(":");
     var d = days.filter(function(x){ return x.id===p[0]; })[0];
