@@ -120,6 +120,15 @@ h2{font:700 21px/1.3 var(--font-display);margin:0 0 12px;text-wrap:balance}
 .leaflet-container a.leaflet-popup-close-button{color:var(--muted)}
 .leaflet-control-attribution{font-size:10px}
 .tiles-dark{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9)}
+.locbtn{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:#fff;color:#1A2230;border:0;cursor:pointer;padding:0}
+.locbtn svg{width:18px;height:18px}
+.locbtn.on{color:#1A73E8}
+.locbtn.busy svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.me{width:18px;height:18px;border-radius:50%;background:#1A73E8;border:3px solid #fff;box-shadow:0 0 0 0 rgba(26,115,232,.5),0 1px 4px rgba(0,0,0,.4);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(26,115,232,0),0 1px 4px rgba(0,0,0,.4)}100%{box-shadow:0 0 0 0 rgba(26,115,232,0),0 1px 4px rgba(0,0,0,.4)}}
+.locmsg{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:1000;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 12px;border-radius:10px;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.me,.locbtn.busy svg{animation:none}}
 
 /* days */
 .day{padding:0;overflow:hidden;scroll-margin-top:64px}
@@ -538,6 +547,44 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     show(b.getAttribute("data-f"));
   });
   show("d1");
+
+  // my location: browser geolocation (HTTPS only); the position stays in the browser
+  var meMarker = null, meCircle = null, watchId = null, firstFix = true, locBtn, msgTimer;
+  function locMsg(t){
+    var el = mapEl.querySelector(".locmsg");
+    if(!el){ el = document.createElement("div"); el.className = "locmsg"; mapEl.appendChild(el); }
+    el.textContent = t; el.hidden = false;
+    clearTimeout(msgTimer); msgTimer = setTimeout(function(){ el.hidden = true; }, 3500);
+  }
+  function onPos(p){
+    var ll = [p.coords.latitude, p.coords.longitude], acc = p.coords.accuracy;
+    locBtn.classList.remove("busy"); locBtn.classList.add("on");
+    if(!meMarker){
+      meCircle = L.circle(ll, { radius:acc, color:"#1A73E8", weight:1, fillColor:"#1A73E8", fillOpacity:.12, interactive:false }).addTo(map);
+      meMarker = L.marker(ll, { icon:L.divIcon({ className:"", html:'<div class="me"></div>', iconSize:[18,18], iconAnchor:[9,9] }), zIndexOffset:2000, title:"내 위치", keyboard:false }).addTo(map);
+    } else { meMarker.setLatLng(ll); meCircle.setLatLng(ll).setRadius(acc); }
+    if(firstFix){ firstFix = false; map.setView(ll, Math.max(map.getZoom(), 16)); }
+  }
+  function onErr(err){
+    locBtn.classList.remove("busy","on");
+    if(watchId !== null){ navigator.geolocation.clearWatch(watchId); watchId = null; }
+    locMsg(err.code === 1 ? "위치 권한이 꺼져 있습니다. 브라우저 설정에서 이 사이트의 위치 접근을 허용하세요." : "위치를 찾지 못했습니다. 잠시 뒤 다시 누르세요.");
+  }
+  var LocCtl = L.Control.extend({ options:{ position:"topleft" }, onAdd:function(){
+    var box = L.DomUtil.create("div", "leaflet-bar");
+    locBtn = L.DomUtil.create("button", "locbtn", box);
+    locBtn.type = "button"; locBtn.title = "내 위치"; locBtn.setAttribute("aria-label", "내 위치 보기");
+    locBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>';
+    L.DomEvent.disableClickPropagation(box);
+    L.DomEvent.on(locBtn, "click", function(){
+      if(!("geolocation" in navigator)){ locMsg("이 브라우저는 위치 기능을 지원하지 않습니다."); return; }
+      if(meMarker && watchId !== null){ map.setView(meMarker.getLatLng(), Math.max(map.getZoom(), 16)); return; }
+      firstFix = true; locBtn.classList.add("busy");
+      watchId = navigator.geolocation.watchPosition(onPos, onErr, { enableHighAccuracy:true, maximumAge:10000, timeout:15000 });
+    });
+    return box;
+  }});
+  map.addControl(new LocCtl());
 
   document.getElementById("dayList").addEventListener("click",function(e){
     var b = e.target.closest("button[data-pin]"); if(!b) return;
