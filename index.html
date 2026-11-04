@@ -112,6 +112,7 @@ h2{font:700 21px/1.3 var(--font-display);margin:0 0 12px;text-wrap:balance}
 .pin{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--c);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
 .pin span{transform:rotate(45deg);font:700 12px/1 var(--font-body);color:#fff}
 .pin.food{width:18px;height:18px;border-radius:50%;transform:none}
+.pin.stay{background:#1F2937;width:32px;height:32px;transform:none;border-radius:8px;font-size:18px;line-height:1}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--ink)}
 .leaflet-popup-content{margin:12px 14px;font:14px/1.5 var(--font-body)}
 .leaflet-popup-content b{display:block;font-size:15px}
@@ -601,6 +602,10 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       g.addLayer(s.marker);
     });
   });
+  // accommodation pin: always visible, coordinates read from the Google Maps place page
+  var stayLL = [33.5811,130.4149];
+  var stayMarker = L.marker(stayLL, { icon:L.divIcon({ className:"", html:'<div class="pin stay">🏠</div>', iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-14] }), title:"숙소", zIndexOffset:1000 })
+    .bindPopup(popup("숙소 SUNZHOTELS.SUMIYOSHI", "福岡市博多区住吉5丁目24-25", "https://maps.app.goo.gl/9UtDQ9qrzpjA5V158")).addTo(map);
   var foodColor = cssVar("--food");
   var fg = groups.food = L.featureGroup();
   food.forEach(function(gr){
@@ -637,6 +642,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     if(fit !== false){
       var b = L.latLngBounds([]);
       Object.keys(groups).forEach(function(k){ if(map.hasLayer(groups[k])) b.extend(groups[k].getBounds()); });
+      if(key==="all") b.extend(stayLL);
       if(b.isValid()) map.fitBounds(b, { padding:[28,28], maxZoom:15 });
     }
   }
