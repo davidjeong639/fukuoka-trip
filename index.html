@@ -21,7 +21,7 @@ img{max-width:100%}
   --accent:#23467A; --accent-soft:#E3EAF5;
   --hero:#1F3D6B; --hero-ink:#FFFFFF; --hero-muted:#C5D3E8;
   --s1:#F4F2EE; --s2:#6E8DB8; --s3:#3A5C8F;
-  --d1:#2F5FA8; --d2:#13827C; --d3:#B86E0B; --d4:#B23F68; --d5:#6650AE; --food:#C2412D;
+  --d1:#2F5FA8; --d2:#13827C; --d3:#B86E0B; --d4:#B23F68; --d5:#6650AE; --food:#C2412D; --bar:#7A3E9D;
   --ok:#1F6B4A; --ok-bg:#DDEFE6; --warn:#7A5000; --warn-bg:#F7E8C4; --crit:#A3281F; --crit-bg:#F6DAD6;
   --shadow:0 1px 2px rgba(20,30,45,.06),0 4px 16px rgba(20,30,45,.06);
   --font-display:"Noto Serif KR","Nanum Myeongjo","Apple Myungjo",serif;
@@ -34,7 +34,7 @@ img{max-width:100%}
     --accent:#8FB2E8; --accent-soft:#1B2840;
     --hero:#142338; --hero-ink:#F1F4F8; --hero-muted:#9FB3D1;
     --s1:#0F141B; --s2:#4A6A99; --s3:#2B4468;
-    --d1:#7FA6E6; --d2:#4FC2B9; --d3:#E3A647; --d4:#E57CA3; --d5:#A895E8; --food:#EE7A63;
+    --d1:#7FA6E6; --d2:#4FC2B9; --d3:#E3A647; --d4:#E57CA3; --d5:#A895E8; --food:#EE7A63; --bar:#C59BE0;
     --ok:#7FD1A5; --ok-bg:#17352A; --warn:#E8B85A; --warn-bg:#3A2E12; --crit:#F09A90; --crit-bg:#3C1D1A;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
     color-scheme:dark;
@@ -45,7 +45,7 @@ img{max-width:100%}
   --accent:#8FB2E8; --accent-soft:#1B2840;
   --hero:#142338; --hero-ink:#F1F4F8; --hero-muted:#9FB3D1;
   --s1:#0F141B; --s2:#4A6A99; --s3:#2B4468;
-  --d1:#7FA6E6; --d2:#4FC2B9; --d3:#E3A647; --d4:#E57CA3; --d5:#A895E8; --food:#EE7A63;
+  --d1:#7FA6E6; --d2:#4FC2B9; --d3:#E3A647; --d4:#E57CA3; --d5:#A895E8; --food:#EE7A63; --bar:#C59BE0;
   --ok:#7FD1A5; --ok-bg:#17352A; --warn:#E8B85A; --warn-bg:#3A2E12; --crit:#F09A90; --crit-bg:#3C1D1A;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
   color-scheme:dark;
@@ -172,6 +172,20 @@ h2{font:700 21px/1.3 var(--font-display);margin:0 0 12px;text-wrap:balance}
 .near .acts{margin-top:6px}
 .near .pinbtn{--c:var(--food)}
 
+.sig{margin:6px 0 0;font-size:13.5px;color:var(--ink)}
+.sig b{font:600 11px/1 var(--font-mono);color:var(--food);background:color-mix(in srgb,var(--food) 12%,var(--surface));padding:3px 6px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.nsig{display:block;font-size:12.5px;color:var(--ink);margin-top:2px}
+.bargrid{display:grid;gap:12px}
+.bar h3{font:700 17px/1.3 var(--font-display);margin:4px 0 2px}
+.bar h3 a{color:var(--ink);text-decoration:none}
+.bar h3 a::after{content:" ↗";color:var(--muted);font-weight:400;font-size:12px}
+.bar p{margin:6px 0 0;font-size:14px;color:var(--muted)}
+.bar .sig{color:var(--ink)}
+.bkind{font:500 11.5px/1.3 var(--font-mono);color:var(--bar)}
+.barea{font-size:13px;color:var(--muted)}
+.bar .pinbtn{--c:var(--bar)}
+@media (min-width:700px){ .bargrid{grid-template-columns:1fr 1fr} }
+
 /* food */
 .foodgrid{display:grid;gap:14px}
 .food h3{display:flex;align-items:center;gap:8px;font:700 16px/1.3 var(--font-display);margin:0 0 4px}
@@ -259,6 +273,13 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     <p class="fine">焼鳥 森本와 とりかわ 粋恭은 일정이 바뀌면서 후보로만 남겼습니다. 이쿠라(오므라이스)와 아임도넛은 동료분이 여성분과 함께일 때 추천한 곳이라 이번 일정에서 뺐습니다. 친푼칸푼의 "텐진점은 피하라"는 말은 확인하지 못했고, 다케시 리스트의 焼き鳥八幡은 가게를 특정하지 못했습니다.</p>
   </section>
 
+  <section id="bars">
+    <h2>바</h2>
+    <p class="lead">아시아 50 베스트 바(2025·2026, 1~100위)에는 후쿠오카 바가 없습니다. 대신 50 Best가 고른 Discovery 선정 바와 칵테일 대회 우승 바텐더의 바, 나카스 노포를 골랐습니다. 영업시간과 차지는 대부분 2017~2020년 기사 기준입니다.</p>
+    <div class="bargrid" id="barList"></div>
+    <p class="fine">규슈에서 리스트에 오른 바는 구마모토의 Yakoboku(2025년 25위, 2026년 59위)뿐입니다. 하카타에서 신칸센으로 약 35분.</p>
+  </section>
+
   <section id="todo">
     <h2 style="display:flex;align-items:baseline">예약과 확인 목록<span class="progress" id="progress"></span></h2>
     <div class="card" style="padding:0"><ul class="checks" id="checkList"></ul></div>
@@ -310,7 +331,8 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
         { t:"15:00경", n:"一幸舎 総本店", eat:1, near:"hakata", d:"거품(泡系) 돈코츠 라멘의 원조. 다베로그는 지점별로 3.45~3.49입니다.", q:"博多一幸舎 総本店", ll:[33.5890,130.4214], src:"다케시" },
         { t:"오후", n:"캐널시티와 나카스 산책", near:"nakasu", d:"첫날은 걷기만 합니다.", q:"キャナルシティ博多", ll:[33.5897,130.4111] },
         { t:"저녁", n:"博多もつ鍋おおやま", eat:1, d:"후쿠오카 모츠나베 매출 1위 체인입니다. 지점이 많아 숙소 가까운 곳으로 고르면 됩니다.", q:"博多もつ鍋おおやま 呉服町", src:"동료" },
-        { t:"밤", n:"나카스 야타이", eat:1, d:"오뎅, 야키토리, 교자 위주로 한두 곳. 라멘은 낮에 먹었으니 생략합니다.", q:"中洲 屋台", ll:[33.5914,130.4071] }
+        { t:"밤", n:"나카스 야타이", eat:1, d:"오뎅, 야키토리, 교자 위주로 한두 곳. 라멘은 낮에 먹었으니 생략합니다.", q:"中洲 屋台", ll:[33.5914,130.4071] },
+        { t:"바", n:"BAR SEBEK 또는 ニッカバー七島", bar:1, q:"BAR SEBEK 中洲", d:"야타이에서 걸어서 몇 분. SEBEK은 2017 헤네시 X.O 칵테일 대회 우승 바텐더의 작은 바(19:00~새벽 2시, 일요일·공휴일 휴무), 七島는 1958년 개업한 나카스 최고참 바(18:00~24:00)입니다.", links:[["七島 지도","ニッカバー七島 中洲"]] }
       ]},
     { id:"d2", num:"13", wd:"금", lbl:"11월 · 금", ttl:"고마사바, 야구박물관, 다케시와 저녁",
       stops:[
@@ -320,7 +342,8 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
         { t:"저녁", n:"博多ごまさば屋", near:"akasaka", eat:1, ll:[33.5910,130.3930], q:"博多ごまさば屋", src:"다케시", d:"다케시와 고마사바(날고등어를 깨간장에 버무린 후쿠오카 명물)를 먹기로 한 곳입니다. 다베로그 기재 주소는 福岡市中央区舞鶴1丁目2-11 おがわビル1階, 전화 092-406-5848이고, 天神역 도보 약 7~8분, 赤坂역 도보 5분입니다. 저녁 17:30~22:00, 일요일 휴무(Mapple 기사 기준, 게재 시기 불명이라 월요일 휴무로 적은 곳도 있습니다. 금요일인 이날은 어느 쪽이든 영업일입니다). 저녁 예약을 받는지는 확인하지 못했으니 전화로 물어보세요. 시메사바(초절임) 유무도 미확인입니다.", tags:[["ok","확정"],["warn","시간 재확인"]] },
         { t:"저녁 대안", n:"食事と酒処 真", eat:1, q:"食事と酒処 真 天神", d:"고등어 구이(鯖の一枚焼き)가 인기이고 고마사바도 평이 좋다는 다베로그 모음 기사가 있습니다. 주소와 영업시간은 확인하지 못해 핀 없이 링크만 넣었습니다. 줄이 길다는 후기가 있어 일찍 가는 편이 좋습니다.", tags:[["warn","주소 미확인"]] },
         { t:"2차·늦게까지", n:"磯ぎよし 天神店", eat:1, q:"磯ぎよし 天神店 舞鶴", d:"다베로그 3.55, 구글 4.1의 생선 이자카야. 고마사바와 사바메시(고등어밥)를 좋아한다는 후기가 있습니다. 주소 中央区舞鶴1-9-23으로 博多ごまさば屋와 같은 舞鶴1丁目이라 22시 무렵 2차로 옮기기 좋습니다. 17:00~23:00(L.O., 핫페퍼 기준), 금·토는 새벽 1시까지라는 오래된 안내도 있습니다. 일요일 휴무. 위치를 정확히 찍지 못해 핀은 없습니다.", tags:[["warn","시간 재확인"]] },
-        { t:"2차 대안", n:"酔灯屋 天神店", eat:1, ll:[33.5921,130.4000], q:"酔灯屋 天神店", d:"단맛 소스를 버무린 고마사바가 명물로 소개되는 해산물 이자카야. 中央区天神1-13-13. 금요일 저녁 17:00~23:30(L.O. 23:00, ぐるなび 기준). 전화 092-716-2901. 다베로그 점수는 확인하지 못했습니다.", tags:[["warn","시간 재확인"]] }
+        { t:"2차 대안", n:"酔灯屋 天神店", eat:1, ll:[33.5921,130.4000], q:"酔灯屋 天神店", d:"단맛 소스를 버무린 고마사바가 명물로 소개되는 해산물 이자카야. 中央区天神1-13-13. 금요일 저녁 17:00~23:30(L.O. 23:00, ぐるなび 기준). 전화 092-716-2901. 다베로그 점수는 확인하지 못했습니다.", tags:[["warn","시간 재확인"]] },
+        { t:"3차 · 바", n:"Bar Kitchen", bar:1, q:"Bar Kitchen 福岡 舞鶴", d:"50 Best Discovery 선정 위스키 바. 고마사바집, 磯ぎよし와 같은 舞鶴1丁目이라 걸어서 바로입니다. 더 늦게까지 마시려면 大名의 Bar Oscar(새벽 3~4시까지, 일요일 휴무)로.", links:[["Bar Oscar 지도","Bar Oscar 大名 福岡"]] }
       ]},
     { id:"d3", num:"14", wd:"토", lbl:"11월 · 토", ttl:"기타큐슈 당일치기, 19:00 야키니쿠",
       note:"19:00 焼肉すどう 예약에 맞춘 시간표입니다. 늦어도 17:30에는 門司港역을 출발해야 합니다. 이날 18:00 돔 콘서트로 하카타와 텐진이 붐빌 수 있어 18:35에 숙소를 나서는 것으로 잡았습니다.",
@@ -336,6 +359,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
         { t:"18:35", n:"하카타 → 天神南", d:"지하철 나나쿠마선 하카타역 → 天神南역 약 3분, 내려서 도보 약 4분. 18:50 도착 목표.", q:"天神南駅" },
         { t:"19:00", n:"焼肉すどう 春吉", near:"haruyoshi", eat:1, ll:[33.5897,130.4061], d:"다베로그 3.93, 焼肉 百名店 2025. 직원이 옆에서 구워주는 완전 예약제 가게입니다. 一休 예약은 취소하면 100% 취소료가 붙습니다.", q:"焼肉すどう 春吉", links:[["一休 예약","https://restaurant.ikyu.com/113304/"]], tags:[["ok","예약 완료"]] },
         { t:"21:00경", n:"食堂うめぼし 大名", eat:1, d:"2차. 春吉에서 도보 약 15분. 20대 취향의 저렴한 술집입니다. 점포가 여러 곳이라 동료분이 보낸 링크의 지점을 확인하세요.", q:"食堂うめぼし 大名", ll:[33.5884,130.3936], src:"동료" },
+        { t:"2차 대안 · 바", n:"BAR SEBEK 또는 BAR 倉吉", bar:1, q:"BAR SEBEK 中洲", d:"스도우에서 다리 건너 나카스. SEBEK(19:00~새벽 2시)이나 1984 HBA 대회 우승자의 BAR 倉吉(19:00~새벽 4시, 차지 1,000엔). 둘 다 토요일 영업.", links:[["倉吉 지도","BAR 倉吉 中洲店"]] },
         { t:"심야", n:"ShinShin 天神本店", eat:1, ll:[33.5927,130.3968], d:"다베로그 3.58. 심야에도 줄이 있다는 후기가 있습니다.", q:"博多らーめんShinShin 天神本店", src:"다케시" }
       ]},
     { id:"d4", num:"15", wd:"일", lbl:"11월 · 일", ttl:"양조장, 鳥カミ",
@@ -345,7 +369,8 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
         { t:"오후", n:"博多百年蔵 (石蔵酒造)", d:"하카타에 하나 남은 양조장입니다. 정규 견학은 하지 않는다고 안내되어 있어, 전화로 견학이 되는지 물어보고 안 되면 직판장에서 시음하고 삽니다. 직판장은 11:00~17:00, 화요일 휴무. 千代県庁口역 도보 약 7분.", q:"博多百年蔵 石蔵酒造", links:[["공식 사이트","https://www.ishikura-shuzou.co.jp/"]], tags:[["warn","견학 미확인"]] },
         { t:"투어 대안", n:"キリンビール福岡工場", d:"꼭 공장 견학을 하고 싶을 때의 대안입니다. 아사쿠라시라 하카타에서 1시간 넘게 걸리고, 일요일은 생산 라인이 멈춰 영상으로 안내합니다. 공식 사이트에서 예약합니다.", q:"キリンビール福岡工場" },
         { t:"18:00", n:"鳥カミ GARDEN CITY", eat:1, ll:[33.5898,130.3946], d:"다베로그 3.65, 야키토리 百名店 2025. 코스제입니다. 토요일에서 이날로 옮겼습니다.", q:"鳥カミ GARDEN CITY 福岡", tags:[["crit","예약 필요"]] },
-        { t:"2차", n:"すし酒場さしす 天神店", eat:1, d:"예약을 받지 않아 웨이팅이 필수입니다.", url:"https://maps.app.goo.gl/M3tcmLMhncTbvkoY8", ll:[33.5867,130.4000], src:"동료" }
+        { t:"2차", n:"すし酒場さしす 天神店", eat:1, d:"예약을 받지 않아 웨이팅이 필수입니다.", url:"https://maps.app.goo.gl/M3tcmLMhncTbvkoY8", ll:[33.5867,130.4000], src:"동료" },
+        { t:"바", n:"Bar Kitchen", bar:1, q:"Bar Kitchen 福岡 舞鶴", d:"일요일엔 쉬는 바가 많습니다. Bar Kitchen은 일요일에도 열고, 나카스의 ニッカバー七島와 カチューシャ도 정기 휴무가 없습니다.", links:[["七島 지도","ニッカバー七島 中洲"],["カチューシャ 지도","カチューシャ バー 中洲"]] }
       ]},
     { id:"d5", num:"16", wd:"월", lbl:"11월 · 월", ttl:"귀국일",
       stops:[
@@ -400,6 +425,69 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       { n:"나카스 야타이", nt:"현장에서 붐비는 곳으로", q:"中洲 屋台", ll:[33.5914,130.4071] }
     ]}
   ];
+
+  // signature dishes, matched by a substring of the shop name; first match wins
+  var SIG = [
+    ["一幸舎","泡系 돈코츠 라멘: 거품이 덮인 진한 돼지뼈 국물"],
+    ["一双","豚骨カプチーノ: 끓이며 자연스럽게 생긴 거품의 진한 돈코츠"],
+    ["一蘭","天然とんこつラーメン + 秘伝の赤いたれ, 1인 칸막이석"],
+    ["ShinShin","博多Shinshinらーめん(돼지뼈+사가 닭, 극세면)과 半やきめし, 한입 교자"],
+    ["節ちゃん","평평한 극세면에 돼지뼈간장 국물, 1946년 창업 원조 맛"],
+    ["兼虎","濃厚 豚骨魚介 つけ麺: 국산 밀 굵은 면, 남은 국물에 밥"],
+    ["ごまさば屋","ごまさば定食: 날고등어 깨간장 무침, 마지막은 오차즈케"],
+    ["磯ぎよし","ごま鯖와 鯖飯(고등어밥)"],
+    ["酔灯屋","단맛 소스의 ゴマサバ, 오징어·도미 해산물"],
+    ["真","鯖の一枚焼き(고등어 통구이)"],
+    ["さしす","うにく(성게+고기), 마구로가 삐져나오는 とろ鉄火巻, 연어알 포테이토샐러드"],
+    ["ひょうたん寿司","점심 ジャンボ定食, 니기리 모둠"],
+    ["ぶんぺい","가라쓰 명점 출신 대장의 玄界灘 생선 오마카세"],
+    ["すどう","九州産 흑모와규 암소 코스, シャトーブリアンのサンド, 마무리 냉면·카레·푸딩"],
+    ["鳥カミ","おまかせコース: 버터·숯 꼬치, 月見つくね, 伊賀焼 土鍋ごはん"],
+    ["粋恭","とりかわ: 닭껍질을 꼬치에 말아 여러 번 굽고 양념"],
+    ["八兵衛","豚バラ(돼지 삼겹살 꼬치)와 창작 꼬치"],
+    ["ちんぷんかんぷん","양 많은 꼬치 60종 이상, 馬刺し, せせり南蛮"],
+    ["楽天地","醤油 모츠나베 한 가지: 단배추와 부추 산더미, 마무리 짬뽕면"],
+    ["一慶","炙りもつ鍋(불에 그을린 곱창, 다른 지점 기준)"],
+    ["きんぎょ","金魚コース 9품: 회, 와규 숯불구이, 모츠나베, 마무리"],
+    ["おおやま","味噌 모츠나베"],
+    ["鉄なべ","鉄鍋餃子: 쇠냄비째 나오는 한입 바삭 교자"],
+    ["めんたい重","めんたい重: 다시마로 감싼 명란 한 덩이를 밥 위에, 소스를 뿌려서"],
+    ["ひらお","天ぷら定食: 한 조각씩 바로 튀겨주고, 오징어젓 무료"],
+    ["こがねむし","焼きカレー와 ビーフカレー"],
+    ["BEAR FRUITS","スーパー焼きカレー: 10여 가지 향신료와 퐁드보, びっくりスパイス"],
+    ["ピピ","王様焼きカレー: 태국 왕궁요리 베이스, 코코넛밀크, 하루 100식 한정"],
+    ["伽哩本舗","シーフード焼きカレー: 320도 오븐에 구운 해산물 야키카레"],
+    ["だるま堂","天まど: 계란 프라이를 달에 비유한 야키우동"],
+    ["旦過市場","旦過うどん의 肉ごぼ天うどん, 향토요리 ぬかだき"],
+    ["天乃","아침 ごまさば・明太丼 정식"],
+    ["大福うどん","ごぼう天うどん(우엉튀김 우동)"],
+    ["야타이","오뎅, 야키토리, 교자"]
+  ];
+  function sigOf(n){ for(var i=0;i<SIG.length;i++){ if(n.indexOf(SIG[i][0])>=0) return SIG[i][1]; } return ""; }
+
+  // bars; ll only where the position was found
+  var bars = [
+    { n:"Bar Kitchen", kind:"50 Best Discovery", area:"天神 舞鶴1-8-26", days:"13일·15일", who:"오너 Tomoyuki Oka", sig:"위스키 약 3,000병의 라이브러리, 위스키에 맞춘 안주", hrs:"매일 저녁(시각 미기재), 칵테일 평균 약 12달러, 092-791-5189", note:"13일 고마사바·磯ぎよし와 같은 舞鶴1丁目. 일요일에도 영업.", q:"Bar Kitchen 福岡 舞鶴" },
+    { n:"Bar Oscar", kind:"50 Best Discovery", area:"大名 1-10-29 6층", days:"13일", who:"長友修一: 긴자 TENDER 上田和男 밑에서 수련, 국내 대회 우승·세계 대회 입상", sig:"Four Leaf Clover(미도리 + 히비키), 클래식 칵테일, 제철 과일 칵테일", hrs:"18:00~새벽 3·4시, 일요일 휴무, 차지 700엔(2020년 기준), 092-721-5352", note:"영어·한국어 메뉴. 늦게까지 하는 곳.", q:"Bar Oscar 大名 福岡" },
+    { n:"BAR SEBEK", kind:"대회 우승", area:"中洲 4-1-12 人形小路", days:"12일·14일", who:"大津麻紀子: 2017 헤네시 X.O 칵테일 대회 우승", sig:"トゥールビヨン ~渦~(헤네시 X.O를 디캔터에서 소용돌이, 2,500엔), ジャックローズ(칼바도스·생석류·라임)", hrs:"19:00~새벽 2시, 일요일·공휴일 휴무, 차지 없음(2017년 기준), 092-291-5510", note:"좌석 10여 석의 작은 바.", q:"BAR SEBEK 中洲", ll:[33.5920,130.4065] },
+    { n:"BAR 倉吉 中洲店", kind:"대회 우승", area:"中洲 2-3-1 2층", days:"14일", who:"倉吉浩二: 1984 HBA 창작 칵테일 대회 우승", sig:"舞・乙女(붉은 쌀 소주 紅乙女 베이스 숏 칵테일), 제철 과일 칵테일", hrs:"19:00~새벽 4시, 일요일·공휴일 휴무, 차지 1,000엔(2020년 기준)", note:"65석으로 넓음.", q:"BAR 倉吉 中洲" },
+    { n:"ニッカバー七島", kind:"나카스 노포", area:"中洲 4-2-18 水上ビル", days:"12일·15일", who:"1958년 개업, 나카스 최고참", sig:"비피터 마티니", hrs:"18:00~24:00, 정기 휴무 없음, 차지 없음(2020년 기준), 092-291-7740", note:"", q:"ニッカバー七島 中洲" },
+    { n:"BARいしばし", kind:"나카스 노포", area:"中洲 4-1-4 4층", days:"12일·14일", who:"1966년 개업", sig:"첫 잔 ジンソニック, 클래식 김렛과 솔티독", hrs:"19:00~24:00, 일요일·공휴일 휴무, 차지 500엔(2020년 기준), 092-272-1055", note:"", q:"BARいしばし 中洲" },
+    { n:"カチューシャ", kind:"나카스 노포", area:"中洲 4-3-8 1층", days:"12일·15일", who:"1964년 개업", sig:"エカテリーナ: 보드카와 바이올렛 리큐르의 보라색 칵테일", hrs:"19:00~새벽 2시, 정기 휴무 없음, 차지 없음(2020년 기준), 092-291-5991", note:"", q:"カチューシャ バー 中洲" }
+  ];
+
+  // positions read from each shop's Google Maps place page; they override the OpenStreetMap guesses
+  var GLL = [
+    ["一幸舎",[33.5882,130.4171]], ["一双",[33.5864,130.4251]], ["大福うどん",[33.5903,130.4200]],
+    ["鉄なべ",[33.5905,130.4064]], ["めんたい重 西中洲",[33.5913,130.4041]], ["めんたい重 博多店",[33.5904,130.4210]],
+    ["磯ぎよし",[33.5923,130.3944]], ["真",[33.5927,130.4020]], ["楽天地",[33.5919,130.4026]],
+    ["きんぎょ",[33.5870,130.4079]], ["かわ乃",[33.5854,130.4063]], ["森本",[33.5896,130.4062]],
+    ["八兵衛",[33.5859,130.3970]], ["在掌",[33.5908,130.4056]], ["ぶんぺい",[33.5905,130.4052]],
+    ["HANJAN",[33.5873,130.3952]], ["當仁",[33.5901,130.3713]], ["百年蔵",[33.5988,130.4175]],
+    ["Bar Kitchen",[33.5927,130.3946]], ["Bar Oscar",[33.5872,130.3940]], ["SEBEK",[33.5921,130.4066]],
+    ["倉吉",[33.5913,130.4083]], ["七島",[33.5924,130.4074]], ["いしばし",[33.5915,130.4071]], ["カチューシャ",[33.5923,130.4067]]
+  ];
+  function fixLL(o){ for(var i=0;i<GLL.length;i++){ if(o.n.indexOf(GLL[i][0])>=0){ o.ll = GLL[i][1]; return; } } }
 
   // nearby food per hub; walk time is computed from ll, or w is the walk time a source gave
   var hubs = {
@@ -474,11 +562,16 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   function link(label,target){ return '<a href="'+esc(href(target))+'" target="_blank" rel="noopener">'+esc(label)+'</a>'; }
   function dayColor(i){ return "var(--d"+(i+1)+")"; }
 
+  days.forEach(function(d){ d.stops.forEach(fixLL); });
+  food.forEach(function(g){ g.items.forEach(fixLL); });
+  Object.keys(hubs).forEach(function(k){ hubs[k].items.forEach(fixLL); });
+  bars.forEach(fixLL);
+
   // nav
   var nav = document.getElementById("nav");
   var navItems = [["alerts","확인"],["mapsec","지도"]]
     .concat(days.map(function(d,i){ return [d.id, d.num+"일 "+d.wd, dayColor(i)]; }))
-    .concat([["food","맛집"],["todo","할 일"]]);
+    .concat([["food","맛집"],["bars","바"],["todo","할 일"]]);
   nav.innerHTML = navItems.map(function(n){
     return '<a class="chip" href="#'+n[0]+'" data-t="'+n[0]+'"'+(n[2]?' style="--c:'+n[2]+'"':'')+'>'+(n[2]?'<i></i>':'')+esc(n[1])+'</a>';
   }).join("");
@@ -506,6 +599,9 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     }catch(err){ b.textContent="직접 선택"; }
   });
 
+  function sigLine(t){ return t ? '<p class="sig"><b>시그니처</b>'+esc(t)+'</p>' : ""; }
+  function barSigOf(n){ var r = ""; bars.forEach(function(b){ if(!r && n.indexOf(b.n)>=0) r = b.sig; }); return r; }
+
   // nearby food panel under a stop
   function nearPanel(id){
     var h = hubs[id]; if(!h) return "";
@@ -515,7 +611,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       var pin = it.ll ? '<button class="btn pinbtn" type="button" data-near="'+id+':'+ii+'">'+ICON_MAP+'지도</button>' : "";
       return '<li><div class="nhead"><a href="'+esc(href(it.url||it.q))+'" target="_blank" rel="noopener">'+esc(it.n)+'</a>'+sc+'</div>'
         + '<div class="nmeta">'+esc(it.g)+(walk?' · '+esc(walk):'')+'</div>'
-        + '<p>'+esc(it.nt)+'</p>'+(pin?'<div class="acts">'+pin+'</div>':'')+'</li>';
+        + '<p>'+esc(it.nt)+'</p>'+sigLine(sigOf(it.n))+(pin?'<div class="acts">'+pin+'</div>':'')+'</li>';
     }).join("");
     return '<details class="near"><summary>근처 맛집 '+h.items.length+'곳 · '+esc(h.n)+'</summary><ul>'+rows+'</ul></details>';
   }
@@ -531,7 +627,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       if(s.url || s.q) acts.push('<a class="btn" href="'+esc(href(s.url||s.q))+'" target="_blank" rel="noopener">'+ICON_OUT+'구글 지도</a>');
       (s.links||[]).forEach(function(l){ acts.push('<a class="btn" href="'+esc(href(l[1]))+'" target="_blank" rel="noopener">'+ICON_OUT+esc(l[0])+'</a>'); });
       return '<li class="stop"><div class="time">'+esc(s.t)+'</div><div class="name">'+esc(s.n)+tags+src+'</div>'
-        + '<p>'+esc(s.d)+'</p>'+(acts.length?'<div class="acts">'+acts.join("")+'</div>':"")+nearPanel(s.near)+'</li>';
+        + '<p>'+esc(s.d)+'</p>'+sigLine(s.eat ? sigOf(s.n) : (s.bar ? barSigOf(s.n) : ""))+(acts.length?'<div class="acts">'+acts.join("")+'</div>':"")+nearPanel(s.near)+'</li>';
     }).join("");
     return '<article class="card day" id="'+d.id+'" style="--c:'+dayColor(di)+'"><div class="dayhead"><div class="num">'+d.num+'<small>'+esc(d.wd)+'</small></div><div><div class="lbl">'+esc(d.lbl)+'</div><h3 class="ttl">'+esc(d.ttl)+'</h3></div></div>'
       + (d.note ? '<p class="daynote">'+esc(d.note)+'</p>' : "")
@@ -542,9 +638,21 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   document.getElementById("foodList").innerHTML = food.map(function(g){
     var rows = g.items.map(function(it){
       var sc = it.sc ? '<div class="sc">'+esc(it.sc)+'<small>다베로그</small></div>' : '<div></div>';
-      return '<li class="row"><div class="l"><span class="nm">'+link(it.n, it.url || it.q)+'</span><span class="nt">'+esc(it.nt)+'</span></div>'+sc+'</li>';
+      var sg = sigOf(it.n);
+      return '<li class="row"><div class="l"><span class="nm">'+link(it.n, it.url || it.q)+'</span><span class="nt">'+esc(it.nt)+'</span>'+(sg?'<span class="nsig">시그니처 · '+esc(sg)+'</span>':'')+'</div>'+sc+'</li>';
     }).join("");
     return '<div class="card"><h3>'+esc(g.c)+'</h3><ul class="rows">'+rows+'</ul></div>';
+  }).join("");
+
+  // bars
+  document.getElementById("barList").innerHTML = bars.map(function(b,i){
+    return '<div class="card bar"><div class="bkind">'+esc(b.kind)+' · '+esc(b.days)+'</div>'
+      + '<h3><a href="'+esc(href(b.q))+'" target="_blank" rel="noopener">'+esc(b.n)+'</a></h3>'
+      + '<div class="barea">'+esc(b.area)+'</div>'
+      + '<p>'+esc(b.who)+'</p>'+sigLine(b.sig)
+      + '<p class="bhrs">'+esc(b.hrs)+'</p>'+(b.note?'<p>'+esc(b.note)+'</p>':'')
+      + (b.ll?'<div class="acts"><button class="btn pinbtn" type="button" data-bar="'+i+'">'+ICON_MAP+'지도에서 보기</button></div>':'')
+      + '</div>';
   }).join("");
 
   // checklist (per-viewer convenience only)
@@ -606,7 +714,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     var g = groups[d.id] = L.featureGroup();
     d.stops.forEach(function(s){
       if(!s.ll) return;
-      var icon = L.divIcon({ className:"", html:'<div class="pin'+(s.eat?' eat':'')+'" style="--c:'+color+'"><span>'+(s.eat?'🍴':s.no)+'</span></div>', iconSize:[28,28], iconAnchor:[14,28], popupAnchor:[0,-26] });
+      var icon = L.divIcon({ className:"", html:'<div class="pin'+(s.eat||s.bar?' eat':'')+'" style="--c:'+color+'"><span>'+(s.eat?'🍴':s.bar?'🍸':s.no)+'</span></div>', iconSize:[28,28], iconAnchor:[14,28], popupAnchor:[0,-26] });
       s.marker = L.marker(s.ll, { icon:icon, title:(s.eat?"식당 · ":"")+s.n }).bindPopup(popup(s.n, (s.eat?"식당 · ":"")+d.num+"일 "+s.t, s.url||s.q));
       g.addLayer(s.marker);
     });
@@ -636,7 +744,16 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     });
   });
 
-  var filters = [["all","전체"]].concat(days.map(function(d,i){ return [d.id, d.num+"일", dayColor(i)]; })).concat([["food","맛집", "var(--food)"]]);
+  var barColor = cssVar("--bar");
+  var bg = groups.bars = L.featureGroup();
+  bars.forEach(function(b){
+    if(!b.ll) return;
+    var icon = L.divIcon({ className:"", html:'<div class="pin eat" style="--c:'+barColor+'"><span>🍸</span></div>', iconSize:[28,28], iconAnchor:[14,28], popupAnchor:[0,-26] });
+    b.marker = L.marker(b.ll, { icon:icon, title:"바 · "+b.n }).bindPopup(popup(b.n, b.kind+" · "+b.area, b.q));
+    bg.addLayer(b.marker);
+  });
+
+  var filters = [["all","전체"]].concat(days.map(function(d,i){ return [d.id, d.num+"일", dayColor(i)]; })).concat([["food","맛집", "var(--food)"],["bars","바", "var(--bar)"]]);
   filterEl.innerHTML = filters.map(function(f){
     return '<button class="chip" type="button" data-f="'+f[0]+'" aria-pressed="false"'+(f[2]?' style="--c:'+f[2]+'"':'')+'>'+(f[2]?'<i></i>':'')+esc(f[1])+'</button>';
   }).join("");
@@ -644,7 +761,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   function show(key, fit){
     current = key;
     Object.keys(groups).forEach(function(k){
-      var on = key==="all" ? (k!=="food" && k.indexOf("near-")!==0) : k===key;
+      var on = key==="all" ? (k!=="food" && k!=="bars" && k.indexOf("near-")!==0) : k===key;
       if(on) groups[k].addTo(map); else map.removeLayer(groups[k]);
     });
     filterEl.querySelectorAll(".chip").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-f")===key ? "true" : "false"); });
@@ -719,6 +836,14 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     show(d.id, false);
     document.getElementById("mapsec").scrollIntoView({ behavior:"smooth", block:"start" });
     setTimeout(function(){ map.invalidateSize(); map.setView(s.ll, 16); s.marker.openPopup(); }, 350);
+  });
+  document.getElementById("barList").addEventListener("click",function(e){
+    var bb = e.target.closest("button[data-bar]"); if(!bb) return;
+    var b = bars[+bb.getAttribute("data-bar")];
+    if(!b || !b.marker) return;
+    show("bars", false);
+    document.getElementById("mapsec").scrollIntoView({ behavior:"smooth", block:"start" });
+    setTimeout(function(){ map.invalidateSize(); map.setView(b.ll, 17); b.marker.openPopup(); }, 350);
   });
   window.addEventListener("load", function(){ map.invalidateSize(); });
 })();
