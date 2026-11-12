@@ -271,7 +271,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     <div class="card mapcard">
       <div class="mapfilter" id="mapFilter" role="group" aria-label="지도에 표시할 날짜"></div>
       <div id="map" role="region" aria-label="일정 지도"></div>
-      <p class="mapnote">핀은 OpenStreetMap 기준 대략 위치입니다. 길찾기는 핀을 눌러 구글 지도로 여세요. 🏠는 숙소, 🍴는 그날 일정의 식당, 🍜☕🍰는 숙소 근처 가게(항상 표시)입니다. 전체를 누르면 모든 일정과 맛집·바가 한 번에 보입니다(마운자로 병원 제외). 위치를 특정하지 못한 가게는 핀 없이 링크만 있습니다.</p>
+      <p class="mapnote">핀은 OpenStreetMap 기준 대략 위치입니다. 길찾기는 핀을 눌러 구글 지도로 여세요. 🏠는 숙소, 🍴는 그날 일정의 식당, 🍜☕🍰🏪는 숙소 근처 가게(항상 표시, "숙소 근처" 칩을 누르면 숙소 주변으로 확대)입니다. 전체를 누르면 모든 일정과 맛집·바가 한 번에 보입니다(마운자로 병원 제외). 위치를 특정하지 못한 가게는 핀 없이 링크만 있습니다.</p>
     </div>
   </section>
 
@@ -586,7 +586,27 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       { n:"カレーと鉄板 パパド", g:"카레·철판", e:"🍴", nt:"구글 평점 4.9. 美野島. 일본식 카레집으로 표시됩니다.", q:"カレーと鉄板 パパド 美野島", ll:[33.58251,130.41961] },
       { n:"SUSHI UCHIO", g:"스시", e:"🍴", nt:"구글 평점 4.7. 구글맵에 오후 2:30 마감 후 6시 재오픈으로 표시됐습니다.", q:"SUSHI UCHIO 博多駅前", ll:[33.58554,130.4166] },
       { n:"GOLDFLOG COFFEE", g:"카페", e:"☕", nt:"구글 평점 4.6. 구글맵에 밤 12시 마감으로 표시됐습니다.", q:"GOLDFLOG COFFEE 住吉", ll:[33.58605,130.41251] },
-      { n:"Coffee Shop Clutch", g:"카페", e:"☕", nt:"구글 평점 4.8. 住吉3丁目. 구글맵에 밤 12시 마감으로 표시됐습니다.", q:"Coffee Shop Clutch 住吉", ll:[33.58528,130.41051] }
+      { n:"Coffee Shop Clutch", g:"카페", e:"☕", nt:"구글 평점 4.8. 住吉3丁目. 구글맵에 밤 12시 마감으로 표시됐습니다.", q:"Coffee Shop Clutch 住吉", ll:[33.58528,130.41051] },
+      { n:"Quán Hana", g:"베트남 요리", e:"🍴", nt:"구글 평점 4.7. 住吉5丁目. 베트남 음식점으로 표시됩니다.", q:"Quán Hana 住吉", ll:[33.58131,130.41525] },
+      { n:"中華そば ろんちゃん", g:"라멘", e:"🍜", nt:"구글 평점 4.9. 住吉5丁目. 라멘집으로 표시됩니다.", q:"中華そば ろんちゃん 住吉", ll:[33.58135,130.41583] },
+      { n:"酒とおでんとツキふたつ", g:"오뎅", e:"🍴", nt:"구글 평점 4.8. 住吉5丁目. 오뎅 가게로 표시되며, 같은 주소에 お出汁堂 颯ト도 등록돼 있습니다.", q:"酒とおでんとツキふたつ 住吉", ll:[33.58113,130.4156] },
+      { n:"United Nations", g:"카페", e:"☕", nt:"구글 평점 4.8. 住吉5丁目. 같은 주소에 쿠키·과자 가게(クッキーナッツミル)도 등록돼 있습니다.", q:"United Nations coffee 住吉", ll:[33.58137,130.415] },
+      { n:"火男(ひょっとこ)", g:"야키토리", e:"🍴", nt:"구글 평점 4.6. 住吉5丁目.", q:"火男 ひょっとこ 住吉 焼鳥", ll:[33.58188,130.41453] },
+      { n:"うーの手づくり餃子", g:"교자", e:"🍴", nt:"구글 평점 4.7. 住吉5丁目. 수제 교자 가게로 표시됩니다.", q:"うーの手づくり餃子 住吉", ll:[33.5822,130.41416] },
+      { n:"Native Fukuoka - Minoshima", g:"카페", e:"☕", nt:"구글 평점 4.8. 美野島.", q:"Native Fukuoka Minoshima", ll:[33.58167,130.41656] },
+      { n:"épi", g:"베이커리", e:"🍰", nt:"구글 평점 4.3. cafe paresser와 같은 건물입니다.", q:"épi 美野島 パン", ll:[33.58178,130.41676] },
+      { n:"長浜御殿 住吉店", g:"라멘", e:"🍜", nt:"구글 평점 4.2. 美野島.", q:"長浜御殿 住吉店", ll:[33.58182,130.41759] },
+      { n:"博多中華STUDIO092", g:"중식", e:"🍴", nt:"구글 평점 4.8. 美野島. 중식당으로 표시됩니다.", q:"博多中華STUDIO092", ll:[33.5823,130.41746] },
+      { n:"Onoyomeshi", g:"정식집", e:"🍴", nt:"구글 평점 5.0이지만 리뷰 수는 확인하지 못했습니다. 美野島.", q:"Onoyomeshi 美野島", ll:[33.5807,130.41594] },
+      { n:"つけ麺鉄生", g:"츠케멘", e:"🍜", nt:"구글 평점 4.3. 美野島. 츠케멘(찍어 먹는 라멘)집으로 표시됩니다.", q:"つけ麺鉄生 美野島", ll:[33.57944,130.41639] },
+      { n:"Beef & Unagi TOMIICHI", g:"소고기·장어", e:"🍴", nt:"구글 평점 4.9. 美野島. 일식당으로 표시됩니다.", q:"Beef & Unagi TOMIICHI 美野島", ll:[33.57994,130.41708] },
+      { n:"米花（Hana）", g:"디저트", e:"🍰", nt:"구글 평점 4.6. 美野島. 디저트 가게로 표시됩니다.", q:"米花 Hana 美野島", ll:[33.58013,130.41722] },
+      { n:"cafe bentue", g:"카페", e:"☕", nt:"구글 평점 5.0이지만 리뷰 수는 확인하지 못했습니다. 住吉4丁目 건물 2층입니다.", q:"cafe bentue 住吉", ll:[33.58293,130.41367] },
+      { n:"Momoyaki Momochan", g:"닭 요리", e:"🍴", nt:"구글 평점 4.7. 住吉4丁目. cafe bentue와 같은 건물입니다.", q:"Momoyaki Momochan 住吉", ll:[33.58295,130.41375] },
+      { n:"Home Kitchen COTALO", g:"타파스", e:"🍴", nt:"구글 평점 4.8. 住吉4丁目. 타파스 요리점으로 표시됩니다.", q:"Home Kitchen COTALO 住吉", ll:[33.58353,130.41284] },
+      { n:"Irifune Shokudo", g:"라멘", e:"🍜", nt:"구글 평점 4.1. 住吉4丁目.", q:"Irifune Shokudo 住吉", ll:[33.58349,130.41304] },
+      { n:"Lawson Hakata Sumiyoshi 5-chome", g:"편의점", e:"🏪", nt:"구글 평점 3.7. 숙소에서 가장 가까운 편의점 중 하나입니다.", q:"ローソン 博多住吉5丁目", ll:[33.58147,130.41596] },
+      { n:"7-Eleven Hakata Minoshima-dori", g:"편의점", e:"🏪", nt:"구글 평점 2.9. 美野島 쪽 편의점입니다.", q:"セブン-イレブン 博多美野島通り", ll:[33.58042,130.41587] }
     ]},
     hakata:{ n:"하카타역", ll:[33.5900,130.4199], items:[
       { n:"博多一双 博多駅東本店", g:"라멘", sc:"3.72", nt:"거품 돈코츠로 줄 서는 집. 11:00~24:00, 부정기 휴무(블로그 기준), 스프가 떨어지면 마감.", q:"博多一双 博多駅東本店", w:"도보 약 6분" },
@@ -874,7 +894,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     cg.addLayer(c.marker);
   });
 
-  var filters = [["all","전체"]].concat(days.map(function(d,i){ return [d.id, d.num+"일", dayColor(i)]; })).concat([["food","맛집", "var(--food)"],["bars","바", "var(--bar)"],["clinics","마운자로", "var(--med)"]]);
+  var filters = [["all","전체"]].concat(days.map(function(d,i){ return [d.id, d.num+"일", dayColor(i)]; })).concat([["near-stay","숙소 근처", "var(--food)"],["food","맛집", "var(--food)"],["bars","바", "var(--bar)"],["clinics","마운자로", "var(--med)"]]);
   filterEl.innerHTML = filters.map(function(f){
     return '<button class="chip" type="button" data-f="'+f[0]+'" aria-pressed="false"'+(f[2]?' style="--c:'+f[2]+'"':'')+'>'+(f[2]?'<i></i>':'')+esc(f[1])+'</button>';
   }).join("");
@@ -888,9 +908,9 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     filterEl.querySelectorAll(".chip").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-f")===key ? "true" : "false"); });
     if(fit !== false){
       var b = L.latLngBounds([]);
-      Object.keys(groups).forEach(function(k){ if(map.hasLayer(groups[k]) && (key==="all" || k!=="near-stay")) b.extend(groups[k].getBounds()); });
-      if(key==="all") b.extend(stayLL);
-      if(b.isValid()) map.fitBounds(b, { padding:[28,28], maxZoom:15 });
+      Object.keys(groups).forEach(function(k){ if(map.hasLayer(groups[k]) && (k!=="near-stay" || key==="all" || key==="near-stay")) b.extend(groups[k].getBounds()); });
+      if(key==="all" || key==="near-stay") b.extend(stayLL);
+      if(b.isValid()) map.fitBounds(b, { padding:[28,28], maxZoom:(key==="near-stay"?16:15) });
     }
   }
   filterEl.addEventListener("click",function(e){
