@@ -112,6 +112,7 @@ h2{font:700 21px/1.3 var(--font-display);margin:0 0 12px;text-wrap:balance}
 .pin{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--c);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
 .pin span{transform:rotate(45deg);font:700 12px/1 var(--font-body);color:#fff}
 .pin.food{width:18px;height:18px;border-radius:50%;transform:none}
+.pin.food.emo{width:24px;height:24px;font-size:13px;line-height:1}
 .pin.eat span{font-size:13px}
 .pin.stay{background:#1F2937;width:32px;height:32px;transform:none;border-radius:8px;font-size:18px;line-height:1}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--ink)}
@@ -270,7 +271,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     <div class="card mapcard">
       <div class="mapfilter" id="mapFilter" role="group" aria-label="지도에 표시할 날짜"></div>
       <div id="map" role="region" aria-label="일정 지도"></div>
-      <p class="mapnote">핀은 OpenStreetMap 기준 대략 위치입니다. 길찾기는 핀을 눌러 구글 지도로 여세요. 🏠는 숙소, 🍴는 그날 일정의 식당입니다. 위치를 특정하지 못한 가게는 핀 없이 링크만 있습니다.</p>
+      <p class="mapnote">핀은 OpenStreetMap 기준 대략 위치입니다. 길찾기는 핀을 눌러 구글 지도로 여세요. 🏠는 숙소, 🍴는 그날 일정의 식당, 숙소 근처 패널의 🍜☕는 근처 가게입니다. 위치를 특정하지 못한 가게는 핀 없이 링크만 있습니다.</p>
     </div>
   </section>
 
@@ -377,7 +378,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     { id:"d1", num:"12", wd:"목", lbl:"11월 · 목", ttl:"도착일",
       note:"하루에 식사를 세 번 넣었습니다. 몸 상태를 보고 야타이는 빼도 됩니다.",
       stops:[
-        { t:"12:30경", n:"공항 도착 후 숙소로", d:"도착 시각은 추정입니다. 공항선 지하철로 하카타역까지 이동해 짐을 맡깁니다.", q:"福岡空港", ll:[33.5848,130.4443], tags:[["warn","시각 추정"]] },
+        { t:"12:30경", n:"공항 도착 후 숙소로", near:"stay", d:"도착 시각은 추정입니다. 공항선 지하철로 하카타역까지 이동해 짐을 맡깁니다.", q:"福岡空港", ll:[33.5848,130.4443], tags:[["warn","시각 추정"]] },
         { t:"15:00경", n:"一幸舎 総本店", eat:1, near:"hakata", d:"거품(泡系) 돈코츠 라멘의 원조. 다베로그는 지점별로 3.45~3.49입니다.", q:"博多一幸舎 総本店", ll:[33.5890,130.4214], src:"다케시" },
         { t:"오후", n:"캐널시티와 나카스 산책", near:"nakasu", d:"첫날은 걷기만 합니다.", q:"キャナルシティ博多", ll:[33.5897,130.4111] },
         { t:"저녁", n:"博多もつ鍋おおやま", eat:1, d:"후쿠오카 모츠나베 매출 1위 체인입니다. 지점이 많아 숙소 가까운 곳으로 고르면 됩니다.", q:"博多もつ鍋おおやま 呉服町", src:"동료" },
@@ -401,14 +402,14 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     { id:"d3", num:"14", wd:"토", lbl:"11월 · 토", ttl:"기타큐슈 당일치기, 19:00 야키니쿠",
       note:"19:00 焼肉すどう 예약에 맞춘 시간표입니다. 늦어도 17:30에는 門司港역을 출발해야 합니다. 이날 18:00 돔 콘서트로 하카타와 텐진이 붐빌 수 있어 18:35에 숙소를 나서는 것으로 잡았습니다.",
       stops:[
-        { t:"08:50", n:"숙소 출발, 하카타역", d:"숙소에서 하카타역으로 이동합니다.", q:"博多駅", ll:[33.5900,130.4199] },
+        { t:"08:50", n:"숙소 출발, 하카타역", near:"stay", d:"숙소에서 하카타역으로 이동합니다.", q:"博多駅", ll:[33.5900,130.4199] },
         { t:"09:10경", n:"신칸센 하카타 → 고쿠라", d:"약 15~17분, 자유석 2,160엔. 자유석이라 오는 열차 아무거나 타면 됩니다. 아끼려면 특급 소닉(약 50분, 1,910엔).", q:"小倉駅", ll:[33.8868,130.8822] },
         { t:"09:30~11:00", n:"고쿠라성과 旦過市場", near:"kokura", d:"고쿠라역에서 고쿠라성까지 도보 약 15분. 11~3월 천수각 9:00~17:00(안내 기준). 내려오는 길에 旦過市場 시장 구경. 고쿠라는 야키우동 발상지지만 점심이 야키카레, 저녁이 야키니쿠라 먹는다면 나눠 맛만 봅니다.", q:"小倉城", ll:[33.8844,130.8743], links:[["旦過市場","旦過市場"]] },
         { t:"11:10경", n:"JR 고쿠라 → 門司港", d:"가고시마본선 門司港행, 약 15분. 고쿠라역으로 돌아가 탑니다.", q:"門司港駅", ll:[33.9451,130.9615] },
         { t:"11:45", n:"焼きカレー こがねむし", eat:1, d:"모지코 명물 야키카레(카레에 치즈를 올려 오븐에 구운 것) 노포입니다. 주인 혼자 운영하는 좁은 가게라 웨이팅이 많다고 해서 11:45 오픈에 맞춰 갑니다. 한국어 메뉴판이 있습니다. 야키카레 650엔(관광 안내 기준, 블로그에는 50엔 올랐다고 적혀 있음). 11:45~14:45, 재료가 떨어지면 일찍 닫습니다. 門司港역 도보 약 7분. 줄이 길면 역 앞 プリンセスピピ(도보 2분)나 伽哩本舗로 갑니다.", q:"焼きカレー こがねむし 門司港", ll:[33.9469,130.9665], src:"블로그", links:[["블로그 후기","https://blog.naver.com/jrhhere/224161787382"],["プリンセスピピ","プリンセスピピ 門司港"],["伽哩本舗","伽哩本舗 門司港レトロ店"]], tags:[["warn","휴무일 미확인"]] },
         { t:"13:00~16:00", n:"모지코 레트로 산책", near:"moji", d:"旧門司税関(9:00~17:00, 무료), 보행자용 도개교 ブルーウィングもじ(10·11·13·14·15·16시에 열려 약 20분간 건널 수 없음), 門司港レトロ展望室. 시각은 안내 사이트 기준입니다.", q:"旧門司税関", ll:[33.9477,130.9636], links:[["展望室","門司港レトロハイマート展望室"]] },
         { t:"16:00경", n:"門司港 → 고쿠라 → 하카타", d:"JR로 고쿠라(약 15분), 신칸센으로 하카타(약 15분). 16:50 전후 하카타 도착. 늦어도 17:30에는 門司港역을 출발합니다.", q:"門司港駅" },
-        { t:"17:00~18:30", n:"숙소에서 쉬기", d:"짐을 두고 씻고 쉽니다." },
+        { t:"17:00~18:30", n:"숙소에서 쉬기", near:"stay", d:"짐을 두고 씻고 쉽니다." },
         { t:"18:35", n:"하카타 → 天神南", d:"지하철 나나쿠마선 하카타역 → 天神南역 약 3분, 내려서 도보 약 4분. 18:50 도착 목표.", q:"天神南駅" },
         { t:"19:00", n:"焼肉すどう 春吉", near:"haruyoshi", eat:1, ll:[33.5897,130.4061], d:"다베로그 3.93, 焼肉 百名店 2025. 직원이 옆에서 구워주는 완전 예약제 가게입니다. 一休 예약은 취소하면 100% 취소료가 붙습니다.", q:"焼肉すどう 春吉", links:[["一休 예약","https://restaurant.ikyu.com/113304/"]], tags:[["ok","예약 완료"]] },
         { t:"21:00경", n:"食堂うめぼし 大名", eat:1, d:"2차. 春吉에서 도보 약 15분. 20대 취향의 저렴한 술집입니다. 점포가 여러 곳이라 동료분이 보낸 링크의 지점을 확인하세요.", q:"食堂うめぼし 大名", ll:[33.5884,130.3936], src:"동료" },
@@ -558,6 +559,20 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
 
   // nearby food per hub; walk time is computed from ll, or w is the walk time a source gave
   var hubs = {
+    stay:{ n:"숙소", label:"숙소 근처 맛집·카페", ll:[33.5811,130.4149], items:[
+      { n:"麺処 一成 住吉店", g:"라멘", e:"🍜", nt:"구글 평점 4.6. 숙소에서 가장 가까운 라멘집입니다. 구글맵에 새벽 1시까지로 표시됐습니다(조회 시점 기준).", q:"麺処 一成 住吉店", ll:[33.58243,130.41692] },
+      { n:"Udon Taira", g:"우동", e:"🍜", nt:"구글 평점 4.4. 구글맵에 오후 3시 마감으로 표시돼 점심 위주로 보입니다.", q:"Udon Taira 住吉 福岡", ll:[33.58317,130.41604] },
+      { n:"めん処 三喜", g:"우동", e:"🍜", nt:"구글 평점 4.5. 春吉 방면. 구글맵에 오후 5시 마감으로 표시됐습니다.", q:"めん処 三喜", ll:[33.58339,130.40801] },
+      { n:"えびすやうどん", g:"우동", e:"🍜", nt:"구글 평점 4.4. 住吉2丁目. 검색에서 다베로그 우동 순위 2위로 소개된 가게와 같은 곳으로 보이지만 확인하지 못했습니다.", q:"えびすやうどん 住吉 博多", ll:[33.58807,130.41251] },
+      { n:"RAMEN TYSON", g:"라멘", e:"🍜", nt:"구글 평점 4.2. 하카타역 앞 방면. 밤 12:30까지로 표시됐습니다.", q:"RAMEN TYSON 博多駅前", ll:[33.58742,130.41471] },
+      { n:"Ko-chan Ramen", g:"라멘", e:"🍜", nt:"구글 평점 4.3. 하카타역 앞 방면. 밤 11:45까지로 표시됐습니다.", q:"Ko-chan Ramen 博多駅前", ll:[33.58795,130.41464] },
+      { n:"ラーメン 胡同", g:"라멘", e:"🍜", nt:"구글 평점 4.6. 春吉 쪽이라 조금 멉니다. 오후 8:30 마감으로 표시됐습니다.", q:"ラーメン 胡同", ll:[33.58735,130.40583] },
+      { n:"cafe paresser", g:"카페", e:"☕", nt:"구글 평점 5.0이지만 리뷰 수는 확인하지 못했습니다. 美野島. 오후 6시 마감으로 표시됐습니다.", q:"cafe paresser 美野島", ll:[33.58178,130.41676] },
+      { n:"CAFE COMMA", g:"카페", e:"☕", nt:"구글 평점 4.7. 白金. 오후 7시 마감으로 표시됐습니다.", q:"CAFE COMMA 白金 福岡", ll:[33.57842,130.40632] },
+      { n:"NOOICE Hakata", g:"카페", e:"☕", nt:"구글 평점 4.6. 하카타역 앞 방면. 오후 5시 마감으로 표시됐습니다.", q:"NOOICE Hakata", ll:[33.58908,130.41463] },
+      { n:"Torimabushi", g:"닭 요리", e:"🍴", nt:"구글 평점 4.2. 닭 요리와 사케를 내는 가게로 소개됩니다.", q:"Torimabushi 住吉 福岡", ll:[33.58832,130.41177] },
+      { n:"BUGORO ALL VEGAN", g:"비건", e:"🍴", nt:"구글 평점 4.9. 비건 전문점이고 오후 6시 오픈으로 표시됐습니다.", q:"BUGORO ALL VEGAN 住吉", ll:[33.58296,130.41118] }
+    ]},
     hakata:{ n:"하카타역", ll:[33.5900,130.4199], items:[
       { n:"博多一双 博多駅東本店", g:"라멘", sc:"3.72", nt:"거품 돈코츠로 줄 서는 집. 11:00~24:00, 부정기 휴무(블로그 기준), 스프가 떨어지면 마감.", q:"博多一双 博多駅東本店", w:"도보 약 6분" },
       { n:"一幸舎", g:"라멘", sc:"3.45~3.49", nt:"거품 돈코츠 원조. 지점별 점수.", q:"博多一幸舎 総本店", ll:[33.5890,130.4214] },
@@ -681,7 +696,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
         + '<div class="nmeta">'+esc(it.g)+(walk?' · '+esc(walk):'')+'</div>'
         + '<p>'+esc(it.nt)+'</p>'+sigLine(sigOf(it.n))+(pin?'<div class="acts">'+pin+'</div>':'')+'</li>';
     }).join("");
-    return '<details class="near"><summary>근처 맛집 '+h.items.length+'곳 · '+esc(h.n)+'</summary><ul>'+rows+'</ul></details>';
+    return '<details class="near"><summary>'+(h.label?esc(h.label)+' '+h.items.length+'곳':'근처 맛집 '+h.items.length+'곳 · '+esc(h.n))+'</summary><ul>'+rows+'</ul></details>';
   }
 
   // days
@@ -817,7 +832,9 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     var h = hubs[id], g = groups["near-"+id] = L.featureGroup();
     h.items.forEach(function(it){
       if(!it.ll) return;
-      var icon = L.divIcon({ className:"", html:'<div class="pin food" style="--c:'+foodColor+'"></div>', iconSize:[18,18], iconAnchor:[9,9], popupAnchor:[0,-8] });
+      var icon = it.e
+        ? L.divIcon({ className:"", html:'<div class="pin food emo" style="--c:'+foodColor+'">'+it.e+'</div>', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-10] })
+        : L.divIcon({ className:"", html:'<div class="pin food" style="--c:'+foodColor+'"></div>', iconSize:[18,18], iconAnchor:[9,9], popupAnchor:[0,-8] });
       it.marker = L.marker(it.ll, { icon:icon, title:it.n }).bindPopup(popup(it.n, h.n+" 근처 · "+it.g+(it.sc ? " · 다베로그 "+it.sc : ""), it.url||it.q));
       g.addLayer(it.marker);
     });
