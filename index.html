@@ -271,7 +271,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     <div class="card mapcard">
       <div class="mapfilter" id="mapFilter" role="group" aria-label="지도에 표시할 날짜"></div>
       <div id="map" role="region" aria-label="일정 지도"></div>
-      <p class="mapnote">핀은 OpenStreetMap 기준 대략 위치입니다. 길찾기는 핀을 눌러 구글 지도로 여세요. 🏠는 숙소, 🍴는 그날 일정의 식당, 숙소 근처 패널의 🍜☕는 근처 가게입니다. 위치를 특정하지 못한 가게는 핀 없이 링크만 있습니다.</p>
+      <p class="mapnote">핀은 OpenStreetMap 기준 대략 위치입니다. 길찾기는 핀을 눌러 구글 지도로 여세요. 🏠는 숙소, 🍴는 그날 일정의 식당, 🍜☕는 숙소 근처 가게(항상 표시)입니다. 전체를 누르면 모든 일정과 맛집·바가 한 번에 보입니다(마운자로 병원 제외). 위치를 특정하지 못한 가게는 핀 없이 링크만 있습니다.</p>
     </div>
   </section>
 
@@ -823,11 +823,11 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     gr.items.forEach(function(it){
       if(!it.ll) return;
       var icon = L.divIcon({ className:"", html:'<div class="pin food" style="--c:'+foodColor+'"></div>', iconSize:[18,18], iconAnchor:[9,9], popupAnchor:[0,-8] });
-      fg.addLayer(L.marker(it.ll, { icon:icon, title:it.n }).bindPopup(popup(it.n, gr.c + (it.sc ? " · 다베로그 "+it.sc : ""), it.url||it.q)));
+      fg.addLayer(L.marker(it.ll, { icon:icon, title:it.n, zIndexOffset:-500 }).bindPopup(popup(it.n, gr.c + (it.sc ? " · 다베로그 "+it.sc : ""), it.url||it.q)));
     });
   });
 
-  // one hidden group per hub; opened from a stop's nearby panel
+  // one group per hub: all shown under "전체", 숙소 근처 always shown, the rest opened from a stop's nearby panel
   Object.keys(hubs).forEach(function(id){
     var h = hubs[id], g = groups["near-"+id] = L.featureGroup();
     h.items.forEach(function(it){
@@ -835,7 +835,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       var icon = it.e
         ? L.divIcon({ className:"", html:'<div class="pin food emo" style="--c:'+foodColor+'">'+it.e+'</div>', iconSize:[24,24], iconAnchor:[12,12], popupAnchor:[0,-10] })
         : L.divIcon({ className:"", html:'<div class="pin food" style="--c:'+foodColor+'"></div>', iconSize:[18,18], iconAnchor:[9,9], popupAnchor:[0,-8] });
-      it.marker = L.marker(it.ll, { icon:icon, title:it.n }).bindPopup(popup(it.n, h.n+" 근처 · "+it.g+(it.sc ? " · 다베로그 "+it.sc : ""), it.url||it.q));
+      it.marker = L.marker(it.ll, { icon:icon, title:it.n, zIndexOffset:(it.e?-200:-500) }).bindPopup(popup(it.n, h.n+" 근처 · "+it.g+(it.sc ? " · 다베로그 "+it.sc : ""), it.url||it.q));
       g.addLayer(it.marker);
     });
   });
@@ -865,13 +865,13 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   function show(key, fit){
     current = key;
     Object.keys(groups).forEach(function(k){
-      var on = key==="all" ? (k!=="food" && k!=="bars" && k!=="clinics" && k.indexOf("near-")!==0) : k===key;
+      var on = key==="all" ? k!=="clinics" : (k===key || k==="near-stay");
       if(on) groups[k].addTo(map); else map.removeLayer(groups[k]);
     });
     filterEl.querySelectorAll(".chip").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-f")===key ? "true" : "false"); });
     if(fit !== false){
       var b = L.latLngBounds([]);
-      Object.keys(groups).forEach(function(k){ if(map.hasLayer(groups[k])) b.extend(groups[k].getBounds()); });
+      Object.keys(groups).forEach(function(k){ if(map.hasLayer(groups[k]) && (key==="all" || k!=="near-stay")) b.extend(groups[k].getBounds()); });
       if(key==="all") b.extend(stayLL);
       if(b.isValid()) map.fitBounds(b, { padding:[28,28], maxZoom:15 });
     }
