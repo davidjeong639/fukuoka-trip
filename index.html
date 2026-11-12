@@ -252,7 +252,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   <dl class="meta">
     <div><dt>가는 편</dt><dd>11/12(목) 11:10<small>인천 출발</small></dd></div>
     <div><dt>오는 편</dt><dd>11/16(월) 13:50<small>후쿠오카 출발</small></dd></div>
-    <div><dt>숙소</dt><dd>SUNZHOTELS.SUMIYOSHI<small>福岡市博多区住吉5丁目24-25 (〒812-0018)</small></dd></div>
+    <div><dt>숙소</dt><dd>SUNZHOTELS.SUMIYOSHI<small>福岡市博多区住吉5-24-25-2 (〒812-0018)</small></dd></div>
   </dl>
 </div>
 
@@ -559,7 +559,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
 
   // nearby food per hub; walk time is computed from ll, or w is the walk time a source gave
   var hubs = {
-    stay:{ n:"숙소", label:"숙소 근처 맛집·카페", ll:[33.5811,130.4149], items:[
+    stay:{ n:"숙소", label:"숙소 근처 맛집·카페", ll:[33.5811065,130.4148711], items:[
       { n:"麺処 一成 住吉店", g:"라멘", e:"🍜", nt:"구글 평점 4.6. 숙소에서 가장 가까운 라멘집입니다. 구글맵에 새벽 1시까지로 표시됐습니다(조회 시점 기준).", q:"麺処 一成 住吉店", ll:[33.58243,130.41692] },
       { n:"Udon Taira", g:"우동", e:"🍜", nt:"구글 평점 4.4. 구글맵에 오후 3시 마감으로 표시돼 점심 위주로 보입니다.", q:"Udon Taira 住吉 福岡", ll:[33.58317,130.41604] },
       { n:"めん処 三喜", g:"우동", e:"🍜", nt:"구글 평점 4.5. 春吉 방면. 구글맵에 오후 5시 마감으로 표시됐습니다.", q:"めん処 三喜", ll:[33.58339,130.40801] },
@@ -850,10 +850,10 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       g.addLayer(s.marker);
     });
   });
-  // accommodation pin: always visible, coordinates read from the Google Maps place page
-  var stayLL = [33.5811,130.4149];
+  // accommodation pin: exact coordinates from the host's own Google Maps link (SUNZHOTELS.SUMIYOSHI)
+  var stayLL = [33.5811065,130.4148711];
   var stayMarker = L.marker(stayLL, { icon:L.divIcon({ className:"", html:'<div class="pin stay">🏠</div>', iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-14] }), title:"숙소", zIndexOffset:1000 })
-    .bindPopup(popup("숙소 SUNZHOTELS.SUMIYOSHI", "福岡市博多区住吉5丁目24-25", "https://maps.app.goo.gl/9UtDQ9qrzpjA5V158")).addTo(map);
+    .bindPopup(popup("숙소 SUNZHOTELS.SUMIYOSHI", "福岡市博多区住吉5-24-25-2", "https://maps.app.goo.gl/4TSYLWfLeJfX9TZM6")).addTo(map);
   var foodColor = cssVar("--food");
   var fg = groups.food = L.featureGroup();
   food.forEach(function(gr){
