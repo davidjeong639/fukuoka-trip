@@ -151,6 +151,8 @@ h2{font:700 21px/1.3 var(--font-display);margin:0 0 12px;text-wrap:balance}
 .stop:last-child::before{bottom:auto;height:18px}
 .stop::after{content:"";position:absolute;left:0;top:14px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:3px solid var(--c)}
 .stop .time{font:500 12px/1.4 var(--font-mono);color:var(--c);font-variant-numeric:tabular-nums}
+.kr{font-weight:500;font-size:.78em;color:var(--muted);margin-left:6px}
+.kr.kri{margin-left:1px;font-size:.88em}
 .stop .name{font-weight:600;font-size:16px;line-height:1.45;margin-top:2px}
 .stop p{margin:4px 0 0;color:var(--muted);font-size:14px}
 .acts{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
@@ -845,6 +847,12 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
 
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
   function href(target){ return /^https?:/.test(target) ? target : MAP(target); }
+  // Korean readings next to Japanese names; "(추정)" = kanji reading not confirmed, "읽기 미확인" = no basis for a reading
+  var KR = {"一幸舎 総本店": "잇코샤 총본점","博多もつ鍋おおやま": "하카타 모쓰나베 오오야마","BAR SEBEK 또는 ニッカバー七島": "닛카 바 나나시마(추정)","마운자로 · ミセルクリニック 福岡院": "미세루 클리닉 후쿠오카원","天麩羅処ひらお アクロス福岡店": "덴푸라도코로 히라오 아크로스 후쿠오카점","王貞治ベースボールミュージアム": "오 사다하루 베이스볼 뮤지엄","박물관 → 赤坂": "아카사카","博多ごまさば屋": "하카타 고마사바야","食事と酒処 真": "쇼쿠지토 사카도코로 신(추정)","磯ぎよし 天神店": "이소기요시 덴진점","酔灯屋 天神店": "읽기 미확인 · 덴진점","고쿠라성과 旦過市場": "탄가이치바","JR 고쿠라 → 門司港": "모지코","焼きカレー こがねむし": "야키카레 고가네무시","門司港 → 고쿠라 → 하카타": "모지코","하카타 → 天神南": "덴진미나미","焼肉すどう 春吉": "야키니쿠 스도 하루요시","食堂うめぼし 大名": "쇼쿠도 우메보시 다이묘","BAR SEBEK 또는 BAR 倉吉": "구라요시(추정)","ShinShin 天神本店": "신신 덴진 본점","麺や兼虎 天神本店": "멘야 가네토라(추정) 덴진 본점","博多百年蔵 (石蔵酒造)": "하카타 햐쿠넨구라 (이시구라 슈조)","キリンビール福岡工場": "기린 맥주 후쿠오카 공장","鳥カミ GARDEN CITY": "도리카미 가든 시티","すし酒場さしす 天神店": "스시 사카바 사시스 덴진점","元祖博多めんたい重 博多店": "간소 하카타 멘타이주 하카타점","一幸舎": "잇코샤","元祖赤のれん 節ちゃんラーメン": "간소 아카노렌 세쓰짱 라멘","もつ鍋 一慶 春吉本店": "모쓰나베 잇케이(추정) 하루요시 본점","春吉きんぎょ": "하루요시 긴교","楽天地": "라쿠텐치","もつ料理 かわ乃": "모쓰 요리 가와노","焼鳥 森本": "야키토리 모리모토","とりかわ 粋恭": "도리카와 · 粋恭 읽기 미확인","八兵衛": "하치베에","ちんぷんかんぷん": "친푼칸푼","プリンセスピピ 門司港本店": "프린세스 피피 모지코 본점","伽哩本舗 門司港レトロ店": "카레혼포(추정) 모지코 레트로점","在掌": "읽기 미확인","鮨ぶんぺい": "스시 분페이","天麩羅処ひらお アクロス店": "덴푸라도코로 히라오 아크로스점","元祖博多めんたい重 西中洲 본점": "간소 하카타 멘타이주 니시나카스","HANJAN 天神大名店": "한잔 덴진 다이묘점","BAR 倉吉 中洲店": "바 구라요시(추정) 나카스점","ニッカバー七島": "닛카 바 나나시마(추정)","BARいしばし": "바 이시바시","カチューシャ": "가추샤","ミセルクリニック 福岡院": "미세루 클리닉 후쿠오카원","MODENA CLINIC 天神本院": "모데나 클리닉 덴진 본원","クララ美容皮膚科 福岡天神院": "클라라 미용피부과 후쿠오카 덴진원","東郷美容形成外科 福岡": "도고 미용성형외과 후쿠오카","ビラビューティークリニック 博多院": "빌라 뷰티 클리닉 하카타원","なないろクリニック": "나나이로 클리닉","クリニーク福岡天神": "클리니크 후쿠오카 덴진","福岡博多駅前通中央クリニック": "후쿠오카 하카타에키마에도리 주오 클리닉","麺処 一成 住吉店": "멘도코로 잇세이(추정) 스미요시점","めん処 三喜": "멘도코로 산키(추정)","えびすやうどん": "에비스야 우동","ラーメン 胡同": "라멘 후톤","かどや食堂": "가도야 식당","大江戸そば": "오에도 소바","焼鳥茶 Yakitori Cha": "야키토리 차","本氣のビールと餃子ママ": "혼키노 비루토 교자 마마","焼き鳥と餃子 ごくう": "야키토리토 교자 고쿠","カレーと鉄板 パパド": "카레토 뎃판 파파도","中華そば ろんちゃん": "주카소바 론짱","酒とおでんとツキふたつ": "사케토 오뎅토 쓰키 후타쓰","火男(ひょっとこ)": "효톳코","うーの手づくり餃子": "우노 데즈쿠리 교자","長浜御殿 住吉店": "나가하마 고텐 스미요시점","博多中華STUDIO092": "하카타 주카 스튜디오 092","つけ麺鉄生": "쓰케멘 뎃세이(추정)","米花（Hana）": "하나","博多一双 博多駅東本店": "하카타 잇소 하카타에키히가시 본점","はかた天乃 KITTE博多店": "하카타 아마노(추정) 키테 하카타점","大福うどん 1番街店": "다이후쿠 우동 1번가점","一蘭 本社総本店": "이치란 본사 총본점","鉄なべ 中洲本店": "데쓰나베 나카스 본점","ひょうたん寿司": "효탄 스시","BOSS E・ZO The FOODHALL": "보스 이조 더 푸드홀","當仁うどん": "도진 우동","旦過市場": "탄가이치바","だるま堂": "다루마도"};
+  var TK = {"天神南": "덴진미나미","天神": "덴진","門司港レトロ展望室": "모지코 레트로 전망실","門司港レトロ": "모지코 레트로","門司港": "모지코","中洲": "나카스","大名": "다이묘","舞鶴": "마이즈루","博多駅前": "하카타에키마에","博多": "하카타","唐人町": "도진마치","赤坂": "아카사카","旦過市場": "탄가이치바","今泉": "이마이즈미","春吉": "하루요시","千代県庁口": "지요켄초구치","旧門司税関": "규 모지 제칸","ブルーウィングもじ": "블루 윙 모지","鹿児島中央": "가고시마추오","おがわビル": "오가와 빌딩","ぐるなび": "구루나비","一休": "잇큐","さくら": "사쿠라","こだま": "고다마","みずほ": "미즈호","のぞみ": "노조미","鳥カミ": "도리카미","さしす": "사시스","兼虎": "가네토라(추정)","めんたい重": "멘타이주","カチューシャ": "가추샤","磯ぎよし": "이소기요시","七島": "나나시마(추정)","プリンセスピピ": "프린세스 피피","伽哩本舗": "카레혼포(추정)","一幸舎": "잇코샤","一双": "잇소","一蘭": "이치란","節ちゃん": "세쓰짱","ひょうたん寿司": "효탄 스시","ぶんぺい": "분페이","焼肉すどう": "야키니쿠 스도","すどう": "스도","八兵衛": "하치베에","ちんぷんかんぷん": "친푼칸푼","楽天地": "라쿠텐치","一慶": "잇케이(추정)","きんぎょ": "긴교","おおやま": "오오야마","鉄なべ": "데쓰나베","ひらお": "히라오","こがねむし": "고가네무시","だるま堂": "다루마도","天乃": "아마노(추정)","大福うどん": "다이후쿠 우동","ごまさば屋": "고마사바야","倉吉": "구라요시(추정)","ニッカバー七島": "닛카 바 나나시마(추정)"};
+  var TKRE = new RegExp(Object.keys(TK).sort(function(a,b){ return b.length-a.length; }).map(function(k){ return k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }).join("|"), "g");
+  function krSpan(n){ return KR[n] ? ' <span class="kr">'+esc(KR[n])+'</span>' : ""; }
+  function annot(h){ return h.replace(TKRE, function(m){ return m+'<span class="kr kri">('+TK[m]+')</span>'; }); }
   function link(label,target){ return '<a href="'+esc(href(target))+'" target="_blank" rel="noopener">'+esc(label)+'</a>'; }
   function dayColor(i){ return "var(--d"+(i+1)+")"; }
 
@@ -897,9 +905,9 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       var walk = it.ll ? "도보 약 "+walkMin(h.ll,it.ll)+"분" : (it.w || "");
       var sc = it.sc ? '<span class="nsc">'+esc(it.sc)+'</span>' : "";
       var pin = it.ll ? '<button class="btn pinbtn" type="button" data-near="'+id+':'+ii+'">'+ICON_MAP+'지도</button>' : "";
-      return '<li><div class="nhead"><a href="'+esc(href(it.url||it.q))+'" target="_blank" rel="noopener">'+esc(it.n)+'</a>'+sc+'</div>'
+      return '<li><div class="nhead"><a href="'+esc(href(it.url||it.q))+'" target="_blank" rel="noopener">'+esc(it.n)+'</a>'+krSpan(it.n)+sc+'</div>'
         + '<div class="nmeta">'+esc(it.g)+(walk?' · '+esc(walk):'')+'</div>'
-        + '<p>'+esc(it.nt)+'</p>'+sigLine(sigOf(it.n))+(pin?'<div class="acts">'+pin+'</div>':'')+'</li>';
+        + '<p>'+annot(esc(it.nt))+'</p>'+sigLine(sigOf(it.n))+(pin?'<div class="acts">'+pin+'</div>':'')+'</li>';
     }).join("");
     return '<details class="near"><summary>'+(h.label?esc(h.label)+' '+h.items.length+'곳':'근처 맛집 '+h.items.length+'곳 · '+esc(h.n))+'</summary><ul>'+rows+'</ul></details>';
   }
@@ -914,11 +922,11 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
       if(s.ll){ pinNo++; s.no = pinNo; acts.push('<button class="btn pinbtn" type="button" data-pin="'+d.id+':'+si+'">'+ICON_MAP+'지도에서 보기</button>'); }
       if(s.url || s.q) acts.push('<a class="btn" href="'+esc(href(s.url||s.q))+'" target="_blank" rel="noopener">'+ICON_OUT+'구글 지도</a>');
       (s.links||[]).forEach(function(l){ acts.push('<a class="btn" href="'+esc(href(l[1]))+'" target="_blank" rel="noopener">'+ICON_OUT+esc(l[0])+'</a>'); });
-      return '<li class="stop"><div class="time">'+esc(s.t)+'</div><div class="name">'+esc(s.n)+tags+src+'</div>'
-        + '<p>'+esc(s.d)+'</p>'+sigLine(s.eat ? sigOf(s.n) : (s.bar ? barSigOf(s.n) : ""))+(acts.length?'<div class="acts">'+acts.join("")+'</div>':"")+nearPanel(s.near)+'</li>';
+      return '<li class="stop"><div class="time">'+esc(s.t)+'</div><div class="name">'+esc(s.n)+krSpan(s.n)+tags+src+'</div>'
+        + '<p>'+annot(esc(s.d))+'</p>'+sigLine(s.eat ? sigOf(s.n) : (s.bar ? barSigOf(s.n) : ""))+(acts.length?'<div class="acts">'+acts.join("")+'</div>':"")+nearPanel(s.near)+'</li>';
     }).join("");
     return '<article class="card day" id="'+d.id+'" style="--c:'+dayColor(di)+'"><div class="dayhead"><div class="num">'+d.num+'<small>'+esc(d.wd)+'</small></div><div><div class="lbl">'+esc(d.lbl)+'</div><h3 class="ttl">'+esc(d.ttl)+'</h3></div></div>'
-      + (d.note ? '<p class="daynote">'+esc(d.note)+'</p>' : "")
+      + (d.note ? '<p class="daynote">'+annot(esc(d.note))+'</p>' : "")
       + '<ul class="stops">'+stops+'</ul></article>';
   }).join("");
 
@@ -927,7 +935,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
     var rows = g.items.map(function(it){
       var sc = it.sc ? '<div class="sc">'+esc(it.sc)+'<small>다베로그</small></div>' : '<div></div>';
       var sg = sigOf(it.n);
-      return '<li class="row"><div class="l"><span class="nm">'+link(it.n, it.url || it.q)+'</span><span class="nt">'+esc(it.nt)+'</span>'+(sg?'<span class="nsig">시그니처 · '+esc(sg)+'</span>':'')+'</div>'+sc+'</li>';
+      return '<li class="row"><div class="l"><span class="nm">'+link(it.n, it.url || it.q)+krSpan(it.n)+'</span><span class="nt">'+annot(esc(it.nt))+'</span>'+(sg?'<span class="nsig">시그니처 · '+esc(sg)+'</span>':'')+'</div>'+sc+'</li>';
     }).join("");
     return '<div class="card"><h3>'+esc(g.c)+'</h3><ul class="rows">'+rows+'</ul></div>';
   }).join("");
@@ -935,7 +943,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   // bars
   document.getElementById("barList").innerHTML = bars.map(function(b,i){
     return '<div class="card bar"><div class="bkind">'+esc(b.kind)+' · '+esc(b.days)+'</div>'
-      + '<h3><a href="'+esc(href(b.q))+'" target="_blank" rel="noopener">'+esc(b.n)+'</a></h3>'
+      + '<h3><a href="'+esc(href(b.q))+'" target="_blank" rel="noopener">'+esc(b.n)+'</a>'+krSpan(b.n)+'</h3>'
       + '<div class="barea">'+esc(b.area)+'</div>'
       + '<p>'+esc(b.who)+'</p>'+sigLine(b.sig)
       + '<p class="bhrs">'+esc(b.hrs)+'</p>'+(b.note?'<p>'+esc(b.note)+'</p>':'')
@@ -946,7 +954,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
   // clinics
   document.getElementById("clinicList").innerHTML = clinics.map(function(c,i){
     return '<div class="card bar clinic'+(c.nobuy?' nobuy':'')+'"><div class="bkind">'+(c.nobuy?'가져가기 불가':'2.5mg 가격순 '+(i+1)+'위 · '+esc(c.pp))+'</div><div class="barea">'+esc(c.near)+'</div>'
-      + '<h3><a href="'+esc(href(c.q))+'" target="_blank" rel="noopener">'+esc(c.n)+'</a></h3>'
+      + '<h3><a href="'+esc(href(c.q))+'" target="_blank" rel="noopener">'+esc(c.n)+'</a>'+krSpan(c.n)+'</h3>'
       + '<div class="barea">'+esc(c.area)+'</div>'
       + '<table class="dose"><tr><th>2.5mg</th><td>'+esc(c.p25)+'</td></tr><tr><th>5mg</th><td>'+esc(c.p5)+'</td></tr><tr><th>7.5mg</th><td>'+esc(c.p75)+'</td></tr></table>'
       + '<p>'+esc(c.fee)+' · '+esc(c.how)+'</p>'
@@ -1006,7 +1014,7 @@ footer{margin-top:32px;color:var(--muted);font:500 12px/1.6 var(--font-mono)}
 
   var groups = {};
   function popup(title, sub, target){
-    return '<b>'+esc(title)+'</b>'+(sub?'<small>'+esc(sub)+'</small><br>':'')+(target?'<a href="'+esc(href(target))+'" target="_blank" rel="noopener">구글 지도에서 열기 ↗</a>':'');
+    return '<b>'+esc(title)+krSpan(title)+'</b>'+(sub?'<small>'+esc(sub)+'</small><br>':'')+(target?'<a href="'+esc(href(target))+'" target="_blank" rel="noopener">구글 지도에서 열기 ↗</a>':'');
   }
   days.forEach(function(d,di){
     var color = cssVar("--d"+(di+1));
